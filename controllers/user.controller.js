@@ -1,44 +1,53 @@
-const User = require("../models/usersModel");
-const {request,response}=require("express");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
-//hashing password
-const hashPassword  = async(user)=>{
-    const hashedPassword = await bcrypt.hash(user.password,8);
-    return hashedPassword;
-};
-
-
-//token
-const generateAuthToken = async (user)=>{
-    const token = await jwt.sign({_id:user._id.toString()},"newuser");
-    return token;
-}
-
-
+const { request } = require("http");
+const profileService = require("../services/user.services");
 
 
 //signUp
 const signUp=async(request,response,next)=>{
-    const {name,email,password}=request.body;
-    // console.log('request.body: ', request.body);
-    try {
-        const isUser = await User.findOne({email});
-        if(isUser){
-            return response.status(400).json({error:"User already existes!"});
-        }
-        const user = new User(request.body);
-        console.log('user: ', user);
-        const hashedPassword = await hashPassword(user);
-        user.password = hashedPassword;
-        await user.save();
-        const token = await generateAuthToken(user);
-        user.password = undefined;
-        response.status(201).json({user,token});
-    } catch (error) {
-        return response.status(500).json({error:"somthing went Wrong!"});
+    const {name,email,password,address,phoneNumber}=request.body;
+    console.log('request.body: ', request.body);
+    const data = await profileService.signUpServices(request.body);
+    const {signupUser,error} = data;
+    if(error){
+        return next(error);
     }
+    response.json(signupUser);
 };
 
-module.exports ={signUp}
+//login 
+const logIn=async(request,response,next)=>{
+    const {email,password} = request.body;
+    // console.log('request.body: ', request.body);
+    const data = await profileService.logInServices(request.body);
+    const {loginUser,error} = data;
+    if(error){
+        return next(error);
+    }
+    response.json(loginUser);
+}
+//update user
+const edit = async (request,response,next)=>{
+    const _id = request.params.id;
+    const data = request.body;
+
+    const update = await profileService.editUserServices(_id,data);
+    const {editUser,error} = update;
+    if(error){
+        return {error}
+    }
+    response.json(editUser);
+}
+//delete user
+const deleteUser = async (request,response,next)=>{
+    const _id = request.params.id;
+    console.log('_id: ', _id);
+    const del = await profileService.deleteUserServices(_id);
+    const {deleteUserAccount,error} = del;
+    if(error){
+        return{error}
+    } 
+    response.json(deleteUserAccount);
+}
+
+module.exports ={signUp,logIn,edit,deleteUser}
