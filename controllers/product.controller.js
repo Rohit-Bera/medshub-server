@@ -1,5 +1,6 @@
 const Product = require("../models/productModel");
 const fs = require("fs");
+const service = require("../services/product.services");
 
 // add api of product
 const addProduct = async (req, res) => {
@@ -41,14 +42,16 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (request, response) => {};
 
-const getProduct = async (request, response) => {
-  Product.find((err, products) => {
-    if (err) {
-      return response.json({ status: "404", error: "product not found" });
-    }
+const getProduct = async (request, response, next) => {
+  const send = await service.getproductApi();
 
-    response.json({ status: "200", products });
-  });
+  const { products, error } = send;
+
+  if (error) {
+    return next(error);
+  }
+
+  response.status(200).json(products);
 };
 
 const getAllProduct = async (request, response) => {};
