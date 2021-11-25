@@ -30,6 +30,16 @@ mongoose
     console.log("failed to connect database");
   });
 
+//importing routes from routes-folder
+const productRoutes = require("./routes/product.routes");
+
+//to access images
+app.use("/productimages", express.static("upload/productimages"));
+
+// <---- Routes --->
+//product-routes
+app.use(productRoutes);
+
 //node server
 app.get("/", (req, res) => {
   res.status(200).json({ success: "server is running" });
