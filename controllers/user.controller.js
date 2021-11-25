@@ -51,3 +51,4 @@ const deleteUser = async (request,response,next)=>{
 }
 
 module.exports ={signUp,logIn,edit,deleteUser}
+
