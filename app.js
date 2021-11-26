@@ -54,7 +54,6 @@ server.listen(port, () => {
   console.log(`server is running on port : ${port}`);
 });
 
-
 //importing routes
 const userRoutes = require("./routes/user.routes");
 
