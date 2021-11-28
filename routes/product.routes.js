@@ -20,9 +20,24 @@ const upload = multer({
   storage: storage,
 });
 
-const { addProduct, getProduct } = require("../controllers/product.controller");
+const {
+  addProduct,
+  getProduct,
+  updateProduct,
+  deleteProduct,
+  getAllProduct,
+  getSearchProduct,
+} = require("../controllers/product.controller");
 
 router.post("/addProduct", upload.array("productImage", 5), addProduct);
 router.get("/getProducts", getProduct);
+router.put(
+  "/updateProduct/:id",
+  upload.array("productImage", 5),
+  updateProduct
+);
+router.delete("/deleteProduct/:id", deleteProduct);
+router.get("/getAllProducts", getAllProduct);
+router.get("/getSearchProduct/:name", getSearchProduct);
 
 module.exports = router;

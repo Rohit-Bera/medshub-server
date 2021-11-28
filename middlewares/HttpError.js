@@ -7,7 +7,9 @@ class HttpError extends Error {
     console.log("code: ", code);
     console.log("message: ", message);
 
-    // return {code,message};
+
+    return { code, message };
+
   }
 }
 

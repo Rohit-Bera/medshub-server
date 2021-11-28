@@ -3,44 +3,88 @@ const fs = require("fs");
 const service = require("../services/product.services");
 
 // add api of product
-const addProduct = async (req, res) => {
+const addProduct = async (req, res, next) => {
   const { productName, productPrice, availableStatus } = req.body;
 
-  try {
-    const exist = await Product.findOne({ productName });
-    if (exist) {
-      return res.json({ status: "500", error: "product already exist" });
-    }
+  const reqfiles = [];
+  const url = req.protocol + "://" + req.get("host"); // for local use
+  // const url = "https://medshub-backend.herokuapp.com";
+  if (req.files === []) {
+    const nofile = new HttpError(500, "no file chosen");
+    return { nofile };
+  }
+  for (var i = 0; i < req.files.length; i++) {
+    reqfiles.push(url + "/productImages/" + req.files[i].filename);
+  }
+  console.log("reqfiles: ", reqfiles);
+  const productImage = reqfiles;
+
+  const body = { productName, productPrice, availableStatus, productImage };
+
+  const send = await service.postProductApi(body);
+
+  const { newProduct, error } = send;
+
+  if (error) {
+    return next(error);
+  }
+
+  res.json({ status: "200", newProduct });
+};
+
+const updateProduct = async (request, response, next) => {
+  const _id = request.params.id;
+  const body = request.body;
+  //   console.log("body: ", body);
+
+  const { productName, productPrice, availableStatus, productImage } =
+    request.body;
+  //   console.log("productPrice: ", productPrice);
+  //   console.log("productName: ", productName);
+  //   console.log("availableStatus: ", availableStatus);
+  //   console.log("productImage: ", productImage);
+
+  if (productImage === undefined) {
     const reqfiles = [];
-    const url = req.protocol + "://" + req.get("host"); // for local use
+    const url = request.protocol + "://" + request.get("host"); // for local use
     // const url = "https://medshub-backend.herokuapp.com";
-    if (req.files === []) {
-      return res.json({ status: "500", error: "no file chosen" });
+    if (request.files === []) {
+      const nofile = new HttpError(500, "no file chosen");
+      return { nofile };
     }
-    for (var i = 0; i < req.files.length; i++) {
-      reqfiles.push(url + "/productImages/" + req.files[i].filename);
+    for (var i = 0; i < request.files.length; i++) {
+      reqfiles.push(url + "/productImages/" + request.files[i].filename);
     }
     console.log("reqfiles: ", reqfiles);
     const productImage = reqfiles;
-    const proDetails = {
-      productName,
-      productPrice,
-      productImage,
-      availableStatus,
-    };
-    console.log("proDetails: ", proDetails);
-    const newProduct = new Product(proDetails);
-    await newProduct.save();
 
-    res.json({ status: "200", newProduct });
-  } catch (error) {
-    console.log("error: ", error);
+    const body = { productName, productPrice, availableStatus, productImage };
 
-    res.json({ status: "500", err: "somethign went wrong" });
+    const data = { _id, body };
+
+    const send = await service.updateProductApi(data);
+
+    const { error, product } = send;
+
+    if (error) {
+      return next(error);
+    }
+
+    response.json({ status: "200", product });
+  } else {
+    const data = { _id, body };
+
+    const send = await service.updateProductApi(data);
+
+    const { error, product } = send;
+
+    if (error) {
+      return next(error);
+    }
+
+    response.json({ status: "200", product });
   }
 };
-
-const updateProduct = async (request, response) => {};
 
 const getProduct = async (request, response, next) => {
   const send = await service.getproductApi();
@@ -54,11 +98,54 @@ const getProduct = async (request, response, next) => {
   response.status(200).json(products);
 };
 
-const getAllProduct = async (request, response) => {};
+const deleteProduct = async (request, response, next) => {
+  const _id = request.params.id;
 
-const searchProduct = async (request, response) => {};
+  const send = await service.deleteProductApi(_id);
+
+  const { success, error } = send;
+
+  if (error) {
+    response.json(error);
+    return next(error);
+  }
+
+  response.json({ success, status: "200" });
+};
+
+const getAllProduct = async (request, response, next) => {
+  const send = await service.getAllProductApi();
+
+  const { products, error } = send;
+
+  if (error) {
+    return next(error);
+  }
+
+  response.status(200).json(products);
+};
+
+const getSearchProduct = async (request, response, next) => {
+  const search = request.params.name;
+
+  const send = await service.searchProductApi(search);
+
+  const { found, error } = send;
+
+  if (error) {
+    response.json(error);
+    console.log("error: ", error);
+    return next(error);
+  }
+
+  response.json({ status: "200", found });
+};
 
 module.exports = {
   addProduct,
   getProduct,
+  updateProduct,
+  deleteProduct,
+  getAllProduct,
+  getSearchProduct,
 };
