@@ -34,7 +34,7 @@ const edit = async (request,response,next)=>{
     const update = await profileService.editUserServices(_id,data);
     const {editUser,error} = update;
     if(error){
-        return {error}
+        return next(error);
     }
     response.json(editUser);
 }
@@ -45,7 +45,7 @@ const deleteUser = async (request,response,next)=>{
     const del = await profileService.deleteUserServices(_id);
     const {deleteUserAccount,error} = del;
     if(error){
-        return{error}
+        return next(error);
     } 
     response.json(deleteUserAccount);
 }

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const adminAuth = async(request,response,next)=>{
     try{
         const token = request.header("Authorization").replace("Barber","");
-        const decoded = jwt.verify(tpken,"newuser");
+        const decoded = jwt.verify(token,"newuser");
         const user = await User.findOne({_id: decoded._id});
         if(user.usertype !== "admin"){
             const error = new HttpError(404,"only admin can changes");

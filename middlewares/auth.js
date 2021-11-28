@@ -20,3 +20,5 @@ const auth = async(request,response,next)=>{
        return error 
     }
 }
+
+module.exports = auth;
