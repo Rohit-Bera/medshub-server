@@ -134,6 +134,7 @@ const getSearchProduct = async (request, response, next) => {
 
   if (error) {
     response.json(error);
+    console.log("error: ", error);
     return next(error);
   }
 

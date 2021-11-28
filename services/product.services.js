@@ -140,7 +140,7 @@ const searchProductApi = async (name) => {
     const searchpro = await Product.find({ productName });
     console.log("searchpro: ", searchpro);
 
-    if (searchpro == []) {
+    if (searchpro == [] || searchpro === null) {
       const error = new HttpError(404, "product not found");
 
       return { error };
