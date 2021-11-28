@@ -101,22 +101,44 @@ const getProduct = async (request, response, next) => {
 const deleteProduct = async (request, response, next) => {
   const _id = request.params.id;
 
-  const send = service.deleteProductApi(_id);
+  const send = await service.deleteProductApi(_id);
 
-  const { deleted, error } = send;
-  console.log("deleted: ", deleted);
+  const { success, error } = send;
+
+  if (error) {
+    response.json(error);
+    return next(error);
+  }
+
+  response.json({ success, status: "200" });
+};
+
+const getAllProduct = async (request, response, next) => {
+  const send = await service.getAllProductApi();
+
+  const { products, error } = send;
 
   if (error) {
     return next(error);
   }
 
-  if (deleted)
-    response.json({ status: "200", success: "data deleted successfully" });
+  response.status(200).json(products);
 };
 
-const getAllProduct = async (request, response, next) => {};
+const getSearchProduct = async (request, response, next) => {
+  const search = request.params.name;
 
-const getSearchProduct = async (request, response, next) => {};
+  const send = await service.searchProductApi(search);
+
+  const { found, error } = send;
+
+  if (error) {
+    response.json(error);
+    return next(error);
+  }
+
+  response.json({ status: "200", found });
+};
 
 module.exports = {
   addProduct,
