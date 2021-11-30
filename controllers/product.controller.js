@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 const fs = require("fs");
-const service = require("../services/product.services");
+const service = require("../services/product.service");
 
 // add api of product
 const addProduct = async (req, res, next) => {
