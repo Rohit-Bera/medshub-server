@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 const fs = require("fs");
-const service = require("../services/product.services");
+const service = require("../services/product.service");
 
 // add api of product
 const addProduct = async (req, res, next) => {
@@ -50,7 +50,8 @@ const updateProduct = async (request, response, next) => {
     // const url = "https://medshub-backend.herokuapp.com";
     if (request.files === []) {
       const nofile = new HttpError(500, "no file chosen");
-      return { nofile };
+      response.json(nofile);
+      return next(nofile);
     }
     for (var i = 0; i < request.files.length; i++) {
       reqfiles.push(url + "/productImages/" + request.files[i].filename);

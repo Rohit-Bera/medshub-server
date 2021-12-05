@@ -1,5 +1,5 @@
 const { request } = require("http");
-const profileService = require("../services/user.services");
+const profileService = require("../services/user.service");
 
 //signUp
 const signUp = async (request, response, next) => {
