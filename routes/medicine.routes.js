@@ -29,5 +29,11 @@ const {
 router.post("/addMedicine", upload.array("medicineImage", 4), addMedicine);
 router.get("/getMedicine", getAllMedicine);
 router.get("/getSearchMedicine/:name", getSearchMedicine);
+router.put(
+  "/updateMedicine/:id",
+  upload.array("medicineImage", 4),
+  updateMedicine
+);
+router.delete("/deleteMedicine/:id", deleteMedicine);
 
 module.exports = router;

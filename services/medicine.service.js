@@ -68,4 +68,73 @@ const searchMedicineApi = async (name) => {
   }
 };
 
-module.exports = { postMedicineApi, getMedicineApi, searchMedicineApi };
+const updateMedicineApi = async (data) => {
+  const { _id, body } = data;
+
+  try {
+    const { medicineImage } = body;
+    console.log("medicineImage: ", medicineImage);
+
+    const medicine = await Medicine.findByIdAndUpdate(
+      { _id },
+      { $set: body },
+      { new: true }
+    );
+
+    if (!_id || !body) {
+      const error = new HttpError(404, "medicine not found");
+      return { error };
+    }
+
+    return { medicine };
+  } catch (error) {
+    console.log("error: ", error);
+
+    const err = new HttpError(500, "something went wrong");
+
+    return { error: err };
+  }
+};
+
+const deleteMedicineApi = async (_id) => {
+  try {
+    const exist = await Medicine.findByIdAndDelete({ _id });
+    console.log("exist: ", exist);
+
+    if (!exist) {
+      const error = new HttpError(404, "product not found");
+
+      return { error };
+    }
+
+    const { medicineImage } = exist;
+
+    const path = [];
+    const location = [];
+
+    for (var i = 0; i < medicineImage.length; i++) {
+      path.push(medicineImage[i].slice(36, 68));
+      location.push(`./upload/medicineimages/${path[i]}`);
+      fs.unlinkSync(location[i]);
+    }
+
+    console.log("path : ", path);
+    console.log("location : ", location);
+
+    return { success: "medicine deleted successfully" };
+  } catch (error) {
+    console.log("error: ", error);
+
+    const err = new HttpError(500, "soemthing went wrong");
+
+    return { error: err };
+  }
+};
+
+module.exports = {
+  postMedicineApi,
+  getMedicineApi,
+  searchMedicineApi,
+  updateMedicineApi,
+  deleteMedicineApi,
+};
