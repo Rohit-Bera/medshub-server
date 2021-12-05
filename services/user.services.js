@@ -51,11 +51,14 @@ const signUpServices = async (signupUser) =>{
         user.password = hashedPassword
         await user.save()
         const token = await generateAuthToken(user)
+        console.log('token: ', token);
         user.password = undefined
         return {signupUser}
         
-    } catch (error) {
-        return response.status(500).json({error:"somthing went Wrong in signup services!"})
+    } catch (err) {
+        const error = new HttpError(500,"something went Wrong in delete user services");
+       console.log('error: ', error);
+       return error ;
     }
 }
 
@@ -69,10 +72,13 @@ const logInServices = async (loginUser) =>{
         const user = await findByCredentials(email,password)
         console.log('user: ', user)
         const token = await generateAuthToken(user)
+        console.log('token: ', token);
         user.password = undefined
     return {loginUser}
     } catch (err) {
-        return response.status(500).json({error:"somthing went Wrong in login services!"})
+        const error = new HttpError(500,"something went Wrong in delete user services");
+       console.log('error: ', error);
+       return error ;
     }
 }
 
@@ -88,8 +94,9 @@ const editUserServices = async(_id,data)=>{
         }
         return {editUser}
     } catch (err) {
-        const error = new HttpError(500,"something went wrong in edit user services");
-        return error;
+        const error = new HttpError(500,"something went Wrong in update user services");
+        console.log('error: ', error);
+        return error ;
     }
 }
 

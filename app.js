@@ -32,13 +32,23 @@ mongoose
 
 //importing routes from routes-folder
 const productRoutes = require("./routes/product.routes");
+const userRoutes = require("./routes/user.routes");
+const orderRoutes = require("./routes/order.routes");
+
+
 
 //to access images
 app.use("/productimages", express.static("upload/productimages"));
 
+
+
+
+
 // <---- Routes --->
 //product-routes
 app.use(productRoutes);
+app.use(userRoutes);
+app.use(orderRoutes);
 
 //node server
 app.get("/", (req, res) => {
@@ -54,8 +64,4 @@ server.listen(port, () => {
   console.log(`server is running on port : ${port}`);
 });
 
-//importing routes
-const userRoutes = require("./routes/user.routes");
 
-//routes
-app.use(userRoutes);

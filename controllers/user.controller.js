@@ -10,7 +10,7 @@ const signUp = async (request, response, next) => {
   if (error) {
     return next(error);
   }
-  response.json(signupUser);
+  response.json({ status: "200", signupUser });
 };
 
 //login
@@ -22,7 +22,7 @@ const logIn = async (request, response, next) => {
   if (error) {
     return next(error);
   }
-  response.json(loginUser);
+  response.json({ status: "200", loginUser });
 };
 //update user
 const edit = async (request, response, next) => {
@@ -34,7 +34,7 @@ const edit = async (request, response, next) => {
     if(error){
         return next(error);
     }
-    response.json(editUser);
+    response.json({ status: "200", editUser });
 }
 //delete user
 const deleteUser = async (request,response,next)=>{
@@ -45,7 +45,7 @@ const deleteUser = async (request,response,next)=>{
     if(error){
         return next(error);
     } 
-    response.json(deleteUserAccount);
+    response.json({ status: "200", deleteUserAccount });
 }
 
 module.exports ={signUp,logIn,edit,deleteUser}
