@@ -35,15 +35,11 @@ const productRoutes = require("./routes/product.routes");
 const userRoutes = require("./routes/user.routes");
 const orderRoutes = require("./routes/order.routes");
 const medicineRoutes = require("./routes/medicine.routes");
-
+const wishlistRoutes = require("./routes/wishlist.routes");
 
 //to access images
 app.use("/productimages", express.static("upload/productimages"));
 app.use("/medicineimages", express.static("uplaod/medicineimages"));
-
-
-
-
 
 // <---- Routes --->
 
@@ -51,6 +47,7 @@ app.use(productRoutes);
 app.use(userRoutes);
 app.use(orderRoutes);
 app.use(medicineRoutes);
+app.use(wishlistRoutes);
 
 //node server
 app.get("/", (req, res) => {

@@ -9,7 +9,8 @@ const addMedicine = async (request, response, next) => {
 
   const reqfiles = [];
 
-  const url = request.protocol + ":://" + request.get("host"); // for testing purpose
+  const url = request.protocol + ":://" + request.get("host");
+  // for testing purpose
 
   // const url = "https://medshub-backend.herokuapp.com";
 
