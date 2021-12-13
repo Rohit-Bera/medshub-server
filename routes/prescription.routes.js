@@ -4,7 +4,7 @@ const auth = require("../middlewares/auth");
 const multer = require("multer");
 const path = require("path");
 const adminCheck = require("../middlewares/adminauth");
-
+//storage
 const storage = multer.diskStorage({
     destination: "./upload/prescriptionimage",
     filename: (request,file, cb) => {

@@ -1,6 +1,6 @@
 const Prescription = require("../models/prescriptionModel");
 const HttpError = require("../middlewares/HttpError");
-
+//upload prescription services
 const uploadPrescriptionServices = async(body)=>{
     const {prescriptionImage,_id} = body
     
@@ -10,12 +10,13 @@ const uploadPrescriptionServices = async(body)=>{
         return {prescription};
     } catch (err) {
         console.log('err: ', err);
-        const error = new HttpError(500, "something went wrong in uploadPrescription!");
+        const error = new HttpError(500, "something went wrong in uploadPrescription Services!");
         console.log('error: ', error);
     return { error };
     }
 };
 
+//all prescription services
 const allPrescriptionService = async()=>{
     try {
         const allPrescription = await Prescription.find().populate("owner");
@@ -34,6 +35,7 @@ const allPrescriptionService = async()=>{
     }
 };
 
+//update Prescription
 const updatePrescriptionServices = async(data1)=>{
     const {_id,data} = data1;
     try {

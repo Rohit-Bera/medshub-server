@@ -5,6 +5,7 @@ const PrescriptionServices = require("../services/prescription.services");
 const HttpError = require("../middlewares/HttpError");
 const { request } = require("http");
 
+// upload prescription controller
 const uploadPrescriptionController = async(request,response,next) => {
     const user = request.user;
     const _id = user._id;
@@ -40,7 +41,7 @@ const uploadPrescriptionController = async(request,response,next) => {
     response.json({ status:"200",prescription });
 };
 
-
+//get all prescription
 const allPrescriptionController = async(request,response,next)=>{
     const data = await PrescriptionServices.allPrescriptionService();
     const{allPrescription,error} = data;
@@ -50,6 +51,7 @@ const allPrescriptionController = async(request,response,next)=>{
     response.json({status:"200",allPrescription});
 }
 
+//update Prescription
 const updatePrescriptionController = async(request,response,next)=>{
     const _id = request.params.id;
     console.log('_id: ', _id);
