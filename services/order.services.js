@@ -78,7 +78,7 @@ catch(err){
         return {error};
 }
 };
-
+//update order services
 const updateOrderServices = async(data1) => {
     const {_id,data} = data1;
     
@@ -94,7 +94,7 @@ const updateOrderServices = async(data1) => {
     } catch (err) {
         const error = new HttpError(500,"something went Wrong in update order  services");
         console.log('error: ', error);
-        return error ;   
+        return {error} ;   
     }
 }
 module.exports = {placeOrderServices,myOrderServices,cancleOrderServices,allOrderservices,updateOrderServices}

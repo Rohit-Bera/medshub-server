@@ -7,7 +7,7 @@ const adminAuth = async(request,response,next)=>{
         const decoded = jwt.verify(token,"newuser");
         const user = await User.findOne({_id: decoded._id});
         if(user.usertype !== "admin"){
-            const error = new HttpError(404,"only admin can changes");
+            const error = new HttpError(404,"only admin can access");
             console.log('error: ', error);
             return {error}; 
         }
