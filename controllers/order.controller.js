@@ -53,6 +53,7 @@ const allOrderController = async(request,response,next)=>{
     response.json({ status: "200", allOrder });
 
 }
+//updateController
 const updateOrderController = async(request,response,next)=>{
     const _id = request.params.id;
     // console.log('_id: ', _id);
