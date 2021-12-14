@@ -35,16 +35,13 @@ const productRoutes = require("./routes/product.routes");
 const userRoutes = require("./routes/user.routes");
 const orderRoutes = require("./routes/order.routes");
 const medicineRoutes = require("./routes/medicine.routes");
-<<<<<<< HEAD
 const wishlistRoutes = require("./routes/wishlist.routes");
-=======
 const prescriptionRoutes = require("./routes/prescription.routes");
->>>>>>> 713c3b2c8905aec56f15286cc49fe581d410af6d
 
 //to access images
 app.use("/productimages", express.static("upload/productimages"));
 app.use("/medicineimages", express.static("uplaod/medicineimages"));
-app.use("/prescriptionimage",express.static("upload/prescriptionimage"));
+app.use("/prescriptionimage", express.static("upload/prescriptionimage"));
 
 // <---- Routes --->
 
@@ -52,11 +49,8 @@ app.use(productRoutes);
 app.use(userRoutes);
 app.use(orderRoutes);
 app.use(medicineRoutes);
-<<<<<<< HEAD
 app.use(wishlistRoutes);
-=======
 app.use(prescriptionRoutes);
->>>>>>> 713c3b2c8905aec56f15286cc49fe581d410af6d
 
 //node server
 app.get("/", (req, res) => {
