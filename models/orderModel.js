@@ -6,6 +6,10 @@ const orderSchema = new Schema({
        type:Schema.Types.ObjectId,
         ref:"Product",
     },
+    medicine: {
+        type: Schema.Types.ObjectId,
+        ref: "Medicine",
+    },
     owner:{
         type:Schema.Types.ObjectId,
         ref:"User",
@@ -18,7 +22,6 @@ const orderSchema = new Schema({
 },
     {timestamps:true}
 );
-
 
 const Order = mongoose.model("Order",orderSchema);
 module.exports = Order;
