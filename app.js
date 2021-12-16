@@ -6,6 +6,7 @@ const axios = require("axios");
 const nodemon = require("nodemon");
 const bodyparser = require("body-parser");
 const cors = require("cors");
+
 require("dotenv").config();
 
 //connection
@@ -37,6 +38,7 @@ const orderRoutes = require("./routes/order.routes");
 const medicineRoutes = require("./routes/medicine.routes");
 const wishlistRoutes = require("./routes/wishlist.routes");
 const prescriptionRoutes = require("./routes/prescription.routes");
+const feedbackRoutes = require("./routes/feedback.routes");
 
 //to access images
 app.use("/productimages", express.static("upload/productimages"));
@@ -51,6 +53,7 @@ app.use(orderRoutes);
 app.use(medicineRoutes);
 app.use(wishlistRoutes);
 app.use(prescriptionRoutes);
+app.use(feedbackRoutes);
 
 //node server
 app.get("/", (req, res) => {
