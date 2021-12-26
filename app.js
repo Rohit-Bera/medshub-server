@@ -39,6 +39,7 @@ const medicineRoutes = require("./routes/medicine.routes");
 const wishlistRoutes = require("./routes/wishlist.routes");
 const prescriptionRoutes = require("./routes/prescription.routes");
 const feedbackRoutes = require("./routes/feedback.routes");
+const chatBotRoutes = require("./routes/chatbot.routes");
 
 //to access images
 app.use("/productimages", express.static("upload/productimages"));
@@ -54,6 +55,7 @@ app.use(medicineRoutes);
 app.use(wishlistRoutes);
 app.use(prescriptionRoutes);
 app.use(feedbackRoutes);
+app.use(chatBotRoutes);
 
 //node server
 app.get("/", (req, res) => {
