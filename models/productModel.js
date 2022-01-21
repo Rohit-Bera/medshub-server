@@ -22,6 +22,14 @@ const productSchema = new Schema(
       required: true,
       default: false,
     },
+    productBrand: {
+      type: String,
+      required: true,
+    },
+    productCategory: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -20,10 +20,18 @@ const medicineSchema = new Schema({
     type: String,
     required: true,
   },
+  medicineCategory: {
+    type: String,
+    required: true,
+  },
   availableStatus: {
     type: Boolean,
     required: true,
     default: false,
+  },
+  medicineCategory: {
+    type: String,
+    required: true,
   },
 });
 
