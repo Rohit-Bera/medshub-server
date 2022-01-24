@@ -2,6 +2,7 @@ const Medicine = require("../models/medicineModel");
 const fs = require("fs");
 const HttpError = require("../middlewares/HttpError");
 
+// post medicine api services
 const postMedicineApi = async (body) => {
   console.log("body: ", body);
 
@@ -28,6 +29,7 @@ const postMedicineApi = async (body) => {
   }
 };
 
+// get medicine api services
 const getMedicineApi = async () => {
   try {
     const medicines = await Medicine.find();
@@ -46,6 +48,7 @@ const getMedicineApi = async () => {
   }
 };
 
+// search medicine api services
 const searchMedicineApi = async (name) => {
   console.log("name: ", name);
   try {
@@ -68,6 +71,7 @@ const searchMedicineApi = async (name) => {
   }
 };
 
+// update medicine api services
 const updateMedicineApi = async (data) => {
   const { _id, body } = data;
 
@@ -96,6 +100,7 @@ const updateMedicineApi = async (data) => {
   }
 };
 
+// delete medicine api services
 const deleteMedicineApi = async (_id) => {
   try {
     const exist = await Medicine.findByIdAndDelete({ _id });
