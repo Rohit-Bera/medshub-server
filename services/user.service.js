@@ -68,11 +68,11 @@ const logInServices = async (loginUser) => {
   const { email, password } = loginUser;
   try {
     const user = await findByCredentials(email, password);
-    console.log("user: ", user);
+    console.log("user login: ", user);
     const token = await generateAuthToken(user);
     console.log("token: ", token);
     user.password = undefined;
-    const loguser = { loginUser, token };
+    const loguser = { user, token };
     return { loguser };
   } catch (err) {
     const error = new HttpError(

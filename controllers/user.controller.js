@@ -16,7 +16,7 @@ const signUp = async (request, response, next) => {
 //login
 const logIn = async (request, response, next) => {
   const { email, password } = request.body;
-  // console.log('request.body: ', request.body);
+
   const data = await profileService.logInServices(request.body);
   const { loguser, error } = data;
   if (error) {
