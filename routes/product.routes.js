@@ -30,6 +30,7 @@ const {
   deleteProduct,
   getAllProduct,
   getSearchProduct,
+  getSearchProductbyBrand,
 } = require("../controllers/product.controller");
 
 // for admin
@@ -55,5 +56,6 @@ router.delete("/deleteProduct/:id", auth, adminauth, deleteProduct);
 router.get("/getProducts", getProduct);
 router.get("/getAllProducts", getAllProduct);
 router.get("/getSearchProduct/:name", getSearchProduct);
+router.get("/getSearchProductbyBrand/:brand", getSearchProductbyBrand);
 
 module.exports = router;

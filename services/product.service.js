@@ -163,6 +163,29 @@ const searchProductApi = async (name) => {
   }
 };
 
+const searchProductbyBrand = async (brand) => {
+  console.log("productbrand: ", brand);
+
+  const productBrand = new RegExp(brand, "i");
+
+  try {
+    const searchpro = await Product.find({ productBrand });
+    console.log("searchpro: ", searchpro);
+
+    if (searchpro == [] || searchpro === null) {
+      const error = new HttpError(404, "product not found");
+
+      return { error };
+    }
+
+    const found = { success: "product found", searchpro };
+
+    return { found };
+  } catch (error) {
+    console.log("error: ", error);
+  }
+};
+
 module.exports = {
   getproductApi,
   postProductApi,
@@ -170,4 +193,5 @@ module.exports = {
   deleteProductApi,
   getAllProductApi,
   searchProductApi,
+  searchProductbyBrand,
 };
