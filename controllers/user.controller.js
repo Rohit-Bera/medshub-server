@@ -16,13 +16,18 @@ const signUp = async (request, response, next) => {
 //login
 const logIn = async (request, response, next) => {
   const { email, password } = request.body;
+  console.log("password: ", password);
+  console.log("email: ", email);
 
   const data = await profileService.logInServices(request.body);
   const { loguser, error } = data;
+  console.log("loguser: ", loguser);
   if (error) {
     return next(error);
   }
-  response.json({ status: "200", loguser });
+  loguser
+    ? response.json({ status: "200", loguser })
+    : response.json({ status: "404", error });
 };
 //update user
 const edit = async (request, response, next) => {

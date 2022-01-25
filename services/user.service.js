@@ -71,8 +71,8 @@ const logInServices = async (loginUser) => {
     console.log("user login: ", user);
     const token = await generateAuthToken(user);
     console.log("token: ", token);
-    user.password = undefined;
     const loguser = { user, token };
+    user.password = undefined;
     return { loguser };
   } catch (err) {
     const error = new HttpError(
