@@ -4,7 +4,13 @@ const service = require("../services/product.service");
 
 // add api of product
 const addProduct = async (req, res, next) => {
-  const { productName, productPrice, availableStatus } = req.body;
+  const {
+    productName,
+    productPrice,
+    availableStatus,
+    productBrand,
+    productCategory,
+  } = req.body;
 
   const reqfiles = [];
   const url = req.protocol + "://" + req.get("host"); // for local use
@@ -19,7 +25,14 @@ const addProduct = async (req, res, next) => {
   console.log("reqfiles: ", reqfiles);
   const productImage = reqfiles;
 
-  const body = { productName, productPrice, availableStatus, productImage };
+  const body = {
+    productName,
+    productPrice,
+    availableStatus,
+    productImage,
+    productBrand,
+    productCategory,
+  };
 
   const send = await service.postProductApi(body);
 
@@ -37,8 +50,14 @@ const updateProduct = async (request, response, next) => {
   const body = request.body;
   //   console.log("body: ", body);
 
-  const { productName, productPrice, availableStatus, productImage } =
-    request.body;
+  const {
+    productName,
+    productPrice,
+    availableStatus,
+    productImage,
+    productBrand,
+    productCategory,
+  } = request.body;
   //   console.log("productPrice: ", productPrice);
   //   console.log("productName: ", productName);
   //   console.log("availableStatus: ", availableStatus);
@@ -59,7 +78,14 @@ const updateProduct = async (request, response, next) => {
     console.log("reqfiles: ", reqfiles);
     const productImage = reqfiles;
 
-    const body = { productName, productPrice, availableStatus, productImage };
+    const body = {
+      productName,
+      productPrice,
+      availableStatus,
+      productImage,
+      productBrand,
+      productCategory,
+    };
 
     const data = { _id, body };
 

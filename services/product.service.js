@@ -6,7 +6,14 @@ const HttpError = require("../middlewares/HttpError");
 // const res = response;
 
 const postProductApi = async (body) => {
-  const { productName, productPrice, availableStatus, productImage } = body;
+  const {
+    productName,
+    productPrice,
+    availableStatus,
+    productImage,
+    productBrand,
+    productCategory,
+  } = body;
 
   try {
     const exist = await Product.findOne({ productName });
@@ -21,6 +28,8 @@ const postProductApi = async (body) => {
       productPrice,
       productImage,
       availableStatus,
+      productBrand,
+      productCategory,
     };
     console.log("proDetails: ", proDetails);
     const newProduct = new Product(proDetails);
