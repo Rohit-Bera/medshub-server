@@ -1,5 +1,5 @@
 const { request } = require("http");
-const cartServices = require("../services/order.service");
+const cartServices = require("../services/cart.service");
 
 //placeorder controller
 const cartController = async (request, response, next) => {
