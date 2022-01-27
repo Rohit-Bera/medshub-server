@@ -3,13 +3,13 @@ const orderServices = require("../services/order.service");
 
 //placeorder controller
 const placeOrderController = async (request, response, next) => {
-  const { productId } = request.query;
+  const { productId, medicineId } = request.query;
   // console.log('productId: ', productId);
   const user = request.user;
   //   console.log("user: ", user);
   const _id = user._id;
   //   console.log('_id: ', _id);
-  const data = { productId, _id };
+  const data = { productId, medicineId, _id };
   const data1 = await orderServices.placeOrderServices(data);
   const { order, error } = data1;
   if (error) {
