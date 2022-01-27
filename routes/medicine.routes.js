@@ -48,7 +48,7 @@ router.delete("/deleteMedicine/:id", auth, adminauth, deleteMedicine);
 router.get("/getMedicine", auth, adminauth, getAllMedicine);
 
 // for user
-router.get("/getMedicine", getAllMedicine);
+router.get("/getMedicineUser", getAllMedicine);
 router.get("/getSearchMedicine/:name", getSearchMedicine);
 
 module.exports = router;
