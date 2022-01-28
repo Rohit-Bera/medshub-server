@@ -3,22 +3,17 @@ const fs = require("fs");
 const HttpError = require("../middlewares/HttpError");
 
 const postWishlistProductApi = async (data) => {
-  const { productId, medicineId, _id } = data;
+  const { productId, _id } = data;
   try {
     const exist = await Wishlist.findOne({
       product: productId,
-      medicine: medicineId,
       owner: { _id },
     });
     if (exist) {
       const error = new HttpError(404, "item found in wishlist");
       return { error };
     }
-    const liked = new Wishlist({
-      product: productId,
-      medicine: medicineId,
-      owner: { _id },
-    });
+    const liked = new Wishlist({ product: productId, owner: { _id } });
     console.log("success: ", liked);
     await liked.save();
     return { liked };
