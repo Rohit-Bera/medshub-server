@@ -5,13 +5,13 @@ const service = require("../services/wishlist.service");
 
 // product
 const addWishlistProduct = async (request, response, next) => {
-  const { productId } = request.query;
+  const { productId, medicineId } = request.query;
   console.log("productId: ", productId);
   const user = request.user;
   console.log("user: ", user);
   const _id = user._id;
   console.log("_id: ", _id);
-  const data = { productId, _id };
+  const data = { productId, medicineId, _id };
   const send = await service.postWishlistProductApi(data);
   const { liked, error } = send;
   if (error) {
