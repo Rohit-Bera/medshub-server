@@ -29,10 +29,7 @@ const medicineSchema = new Schema({
     required: true,
     default: false,
   },
-  medicineCategory: {
-    type: String,
-    required: true,
-  },
+  
 });
 
 const Medicine = mongoose.model("Medicine", medicineSchema);

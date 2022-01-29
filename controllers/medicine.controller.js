@@ -4,7 +4,7 @@ const service = require("../services/medicine.service");
 const HttpError = require("../middlewares/HttpError");
 
 const addMedicine = async (request, response, next) => {
-  const { medicineName, medicinePrice, manufacturerName, availableStatus } =
+  const { medicineName, medicinePrice, manufacturerName, availableStatus,medicineCategory } =
     request.body;
 
   const reqfiles = [];
@@ -27,13 +27,15 @@ const addMedicine = async (request, response, next) => {
   const medicineImage = reqfiles;
 
   const body = {
+    
     medicineName,
     medicinePrice,
     medicineImage,
     manufacturerName,
     availableStatus,
+    medicineCategory
   };
-
+  console.log('body: ', body);
   const send = await service.postMedicineApi(body);
 
   const { newMeds, error } = send;
