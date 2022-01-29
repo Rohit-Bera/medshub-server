@@ -44,7 +44,7 @@ const cartRoutes = require("./routes/cart.routes");
 
 //to access images
 app.use("/productimages", express.static("upload/productimages"));
-app.use("/medicineimages", express.static("uplaod/medicineimages"));
+app.use("/medicineimages", express.static("upload/medicineimages"));
 app.use("/prescriptionimage", express.static("upload/prescriptionimage"));
 
 // <---- Routes --->
