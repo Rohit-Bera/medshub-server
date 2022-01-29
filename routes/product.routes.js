@@ -38,7 +38,7 @@ router.post(
   "/addProduct",
   auth,
   adminauth,
-  upload.array("productImage", 5),
+  upload.array("productImage", 4),
   addProduct
 );
 router.get("/getAllProducts", auth, adminauth, getAllProduct);
@@ -47,7 +47,7 @@ router.put(
   "/updateProduct/:id",
   auth,
   adminauth,
-  upload.array("productImage", 5),
+  upload.array("productImage", 4),
   updateProduct
 );
 router.delete("/deleteProduct/:id", auth, adminauth, deleteProduct);
