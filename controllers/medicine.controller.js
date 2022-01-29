@@ -4,8 +4,13 @@ const service = require("../services/medicine.service");
 const HttpError = require("../middlewares/HttpError");
 
 const addMedicine = async (request, response, next) => {
-  const { medicineName, medicinePrice, manufacturerName, availableStatus } =
-    request.body;
+  const {
+    medicineName,
+    medicinePrice,
+    manufacturerName,
+    availableStatus,
+    medicineCategory,
+  } = request.body;
 
   const reqfiles = [];
 
@@ -32,6 +37,7 @@ const addMedicine = async (request, response, next) => {
     medicineImage,
     manufacturerName,
     availableStatus,
+    medicineCategory,
   };
 
   const send = await service.postMedicineApi(body);
@@ -78,6 +84,7 @@ const updateMedicine = async (request, response, next) => {
       manufacturerName,
       medicineImage,
       availableStatus,
+      medicineCategory,
     } = body;
 
     if (medicineImage === undefined || medicineImage === []) {
@@ -93,7 +100,7 @@ const updateMedicine = async (request, response, next) => {
       }
 
       for (var i = 0; i < request.files.length; i++) {
-        reqfiles.push(url + "/productImages/" + request.files[i].filename);
+        reqfiles.push(url + "/medicineImages/" + request.files[i].filename);
       }
 
       console.log("reqfiles: ", reqfiles);
@@ -106,6 +113,7 @@ const updateMedicine = async (request, response, next) => {
         manufacturerName,
         medicineImage,
         availableStatus,
+        medicineCategory,
       };
 
       const data = { _id, body };
