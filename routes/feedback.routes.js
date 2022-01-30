@@ -1,8 +1,19 @@
 const express = require("express");
-const { postFeedback } = require("../controllers/feedback.controller");
+const {
+  postWebFeedback,
+  postProductFeedback,
+  postMedicineFeedback,
+  postOrderProblem,
+} = require("../controllers/feedback.controller");
 const router = express.Router();
 const auth = require("../middlewares/auth");
 
-router.post("/postFeedback", auth, postFeedback);
+router.post("/postWebFeedback", auth, postWebFeedback);
+
+router.post("/postProductFeedback", auth, postProductFeedback);
+
+router.post("/postMedicineFeedback", auth, postMedicineFeedback);
+
+router.post("/postOrderProblem", auth, postOrderProblem);
 
 module.exports = router;
