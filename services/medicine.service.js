@@ -108,7 +108,6 @@ const deleteMedicineApi = async (_id) => {
 
     if (!exist) {
       const error = new HttpError(404, "product not found");
-
       return { error };
     }
 
