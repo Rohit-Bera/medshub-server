@@ -103,13 +103,16 @@ const updateMedicineApi = async (data) => {
 // delete medicine api services
 const deleteMedicineApi = async (_id) => {
   try {
-    const exist = await Medicine.findByIdAndDelete({ _id });
-    console.log("exist: ", exist);
+    const findmed = await Medicine.findById({ _id });
 
-    if (!exist) {
-      const error = new HttpError(404, "product not found");
+    if (!findmed) {
+      const error = new HttpError(404, "medicine not found");
+
       return { error };
     }
+
+    const exist = await Medicine.findByIdAndDelete({ _id });
+    console.log("exist: ", exist);
 
     const { medicineImage } = exist;
 
@@ -117,8 +120,8 @@ const deleteMedicineApi = async (_id) => {
     const location = [];
 
     for (var i = 0; i < medicineImage.length; i++) {
-      path.push(medicineImage[i].slice(36, 68));
-      location.push(`./upload/medicineimages/${path[i]}`);
+      path.push(medicineImage[i].slice(36, 69));
+      location.push(`./upload/medicineimages${path[i]}`);
       fs.unlinkSync(location[i]);
     }
 
