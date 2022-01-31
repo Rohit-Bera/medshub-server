@@ -15,7 +15,7 @@ const postWebFeedback = async (request, response, next) => {
     //google sheets
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: process.env.SHEETCREDENTIALS,
+      keyFile: "credentials.json" || process.env.credentials.json,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
