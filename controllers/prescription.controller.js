@@ -12,7 +12,7 @@ const uploadPrescriptionController = async (request, response, next) => {
   console.log("_id: ", _id);
   const reqfiles = [];
 
-  const url = request.protocol + ":://" + request.get("host");
+  const url = request.protocol + "://" + request.get("host");
 
   if (request.files === []) {
     const error = new HttpError(500, "no file choose");
