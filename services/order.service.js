@@ -63,7 +63,7 @@ const cancleOrderServices = async (_id) => {
 //allOrderServices
 const allOrderservices = async () => {
   try {
-    const allOrder = await Order.find().populate("owner").populate("product");
+    const allOrder = await Order.find().populate("owner").populate("product").populate("medicine");
 
     if (allOrder) {
       return { allOrder };
