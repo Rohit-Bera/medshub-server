@@ -54,7 +54,7 @@ const postWebFeedback = async (request, response, next) => {
   } catch (error) {
     console.log("error: ", error);
 
-    const err = new HttpError(500, "something went wrong");
+    const err = new HttpError(500, "something went wrong in feedback");
 
     response.json({ err, error });
 
