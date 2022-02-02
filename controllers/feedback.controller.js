@@ -74,7 +74,7 @@ const postProductFeedback = async (request, response, next) => {
     //google sheets
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: "credentials.json",
+      keyFile: "sheet.json",
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
@@ -143,7 +143,7 @@ const postMedicineFeedback = async (request, response, next) => {
     //google sheets
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: "credentials.json",
+      keyFile: "sheet.json",
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
@@ -196,7 +196,7 @@ const postOrderProblem = async (request, response, next) => {
     //google sheets
 
     const auth = new google.auth.GoogleAuth({
-      keyFile: "credentials.json",
+      keyFile: "sheet.json",
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
 
