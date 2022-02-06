@@ -192,6 +192,13 @@ const postMedicineFeedback = async (request, response, next) => {
 
 // testing
 const postOrderProblem = async (request, response, next) => {
+  const user = request.user;
+  const _id = user._id;
+  const name = user.name;
+  const phoneNumber = user.phoneNumber;
+
+  const { orderId, itemName, problem } = request.body;
+
   try {
     //google sheets
 
@@ -215,17 +222,17 @@ const postOrderProblem = async (request, response, next) => {
     const getRows = await googleSheets.spreadsheets.values.get({
       auth,
       spreadsheetId,
-      range: "feedback!A:D",
+      range: "orders!A:F",
     });
 
     // write rows into sheets
     const added = await googleSheets.spreadsheets.values.append({
       auth,
       spreadsheetId,
-      range: "feedback!A:D",
+      range: "orders!A:F",
       valueInputOption: "USER_ENTERED",
       resource: {
-        values: [[_id, username, useremail, feedback]],
+        values: [[_id, name, phoneNumber, orderId, itemName, problem]],
       },
     });
 
