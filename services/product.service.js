@@ -189,7 +189,7 @@ const searchProductbyBrand = async (brand) => {
 const searchProductbyCategory = async (category) => {
   console.log("productcategory: ", category);
 
-  const productBrand = new RegExp(category, "i");
+  const productCategory = new RegExp(category, "i");
 
   try {
     const searchpro = await Product.find({ productCategory });
