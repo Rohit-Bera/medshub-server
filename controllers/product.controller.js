@@ -184,6 +184,22 @@ const getSearchProductbyBrand = async (request, response, next) => {
   response.json({ status: "200", found });
 };
 
+const getSearchProductbyCategory = async (request, response, next) => {
+  const search = request.params.category;
+
+  const send = await service.searchProductbyCategory(search);
+
+  const { found, error } = send;
+
+  if (error) {
+    response.json(error);
+    console.log("error: ", error);
+    return next(error);
+  }
+
+  response.json({ status: "200", found });
+};
+
 module.exports = {
   addProduct,
   getProduct,
@@ -192,4 +208,5 @@ module.exports = {
   getAllProduct,
   getSearchProduct,
   getSearchProductbyBrand,
+  getSearchProductbyCategory,
 };

@@ -31,6 +31,7 @@ const {
   getAllProduct,
   getSearchProduct,
   getSearchProductbyBrand,
+  getSearchProductbyCategory,
 } = require("../controllers/product.controller");
 
 // for admin
@@ -57,5 +58,6 @@ router.get("/getProducts", getProduct);
 router.get("/getAllProducts", getAllProduct);
 router.get("/getSearchProduct/:name", getSearchProduct);
 router.get("/getSearchProductbyBrand/:brand", getSearchProductbyBrand);
+router.get("/searchProductbyCategory/:category", getSearchProductbyCategory);
 
 module.exports = router;
