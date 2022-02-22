@@ -10,6 +10,7 @@ const addMedicine = async (request, response, next) => {
     manufacturerName,
     availableStatus,
     medicineCategory,
+    medicineDescription,
   } = request.body;
 
   const reqfiles = [];
@@ -38,6 +39,7 @@ const addMedicine = async (request, response, next) => {
     manufacturerName,
     availableStatus,
     medicineCategory,
+    medicineDescription,
   };
 
   const send = await service.postMedicineApi(body);
@@ -85,6 +87,7 @@ const updateMedicine = async (request, response, next) => {
       medicineImage,
       availableStatus,
       medicineCategory,
+      medicineDescription,
     } = body;
 
     if (medicineImage === undefined || medicineImage === []) {
@@ -114,6 +117,7 @@ const updateMedicine = async (request, response, next) => {
         medicineImage,
         availableStatus,
         medicineCategory,
+        medicineDescription,
       };
 
       const data = { _id, body };

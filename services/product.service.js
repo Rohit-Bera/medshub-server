@@ -13,6 +13,7 @@ const postProductApi = async (body) => {
     productImage,
     productBrand,
     productCategory,
+    productDescription,
   } = body;
 
   try {
@@ -30,6 +31,7 @@ const postProductApi = async (body) => {
       availableStatus,
       productBrand,
       productCategory,
+      productDescription,
     };
     console.log("proDetails: ", proDetails);
     const newProduct = new Product(proDetails);

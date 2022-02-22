@@ -24,12 +24,15 @@ const medicineSchema = new Schema({
     type: String,
     required: true,
   },
+  medicineDescription: {
+    type: String,
+    required: true,
+  },
   availableStatus: {
     type: Boolean,
     required: true,
     default: false,
   },
-
 });
 
 const Medicine = mongoose.model("Medicine", medicineSchema);

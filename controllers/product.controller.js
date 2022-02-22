@@ -10,7 +10,9 @@ const addProduct = async (req, res, next) => {
     availableStatus,
     productBrand,
     productCategory,
+    productDescription,
   } = req.body;
+  console.log("req.body: ", req.body);
 
   const reqfiles = [];
   const url = req.protocol + "://" + req.get("host"); // for local use
@@ -32,6 +34,7 @@ const addProduct = async (req, res, next) => {
     productImage,
     productBrand,
     productCategory,
+    productDescription,
   };
 
   const send = await service.postProductApi(body);
@@ -57,6 +60,7 @@ const updateProduct = async (request, response, next) => {
     productImage,
     productBrand,
     productCategory,
+    productDescription,
   } = request.body;
   //   console.log("productPrice: ", productPrice);
   //   console.log("productName: ", productName);
@@ -85,6 +89,7 @@ const updateProduct = async (request, response, next) => {
       productImage,
       productBrand,
       productCategory,
+      productDescription,
     };
 
     const data = { _id, body };
