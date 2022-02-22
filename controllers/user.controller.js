@@ -1,3 +1,4 @@
+const { response } = require("express");
 const { request } = require("http");
 const profileService = require("../services/user.service");
 
@@ -52,5 +53,14 @@ const deleteUser = async (request, response, next) => {
   }
   response.json({ status: "200", deleteUserAccount });
 };
+//get all user
+const getAllUsers = async(request,response,next)=>{
+  const user = await profileService.getAllUsersServices();
+  const {allusers,error} = user;
+  if (error) {
+    return next(error);
+  }
+  response.json({status:"200",allusers})
+}
 
-module.exports = { signUp, logIn, edit, deleteUser };
+module.exports = { signUp, logIn, edit, deleteUser, getAllUsers };

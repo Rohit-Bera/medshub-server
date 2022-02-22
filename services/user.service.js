@@ -130,9 +130,28 @@ const deleteUserServices = async (_id) => {
     return error;
   }
 };
+
+
+const getAllUsersServices = async ()=>{
+  try{
+    const allusers = await User.find();
+    if(!allusers){
+      const error = new HttpError(404,"User Not Found!");
+
+      return{error};
+    }
+    return {allusers};
+  }catch(error){
+    console.log('error: ', error);
+    return{error};
+
+
+  }
+}
 module.exports = {
   signUpServices,
   logInServices,
   editUserServices,
   deleteUserServices,
+  getAllUsersServices
 };
