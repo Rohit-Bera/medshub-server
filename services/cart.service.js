@@ -10,6 +10,17 @@ const placeCartServices = async (data) => {
   const { productId, medicineId, _id } = data;
   // console.log('data: ', data);
   try {
+    const exist = await Cart.findOne({
+      product: productId,
+      medicine: medicineId,
+      owner: { _id },
+    });
+
+    if (exist) {
+      const error = new HttpError(400, "item found in wishlist");
+      return { error };
+    }
+
     const cart = new Cart({
       product: productId,
       medicine: medicineId,

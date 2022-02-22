@@ -10,7 +10,7 @@ const postWishlistProductApi = async (data) => {
       owner: { _id },
     });
     if (exist) {
-      const error = new HttpError(404, "item found in wishlist");
+      const error = new HttpError(400, "item found in wishlist");
       return { error };
     }
     const liked = new Wishlist({ product: productId, owner: { _id } });
