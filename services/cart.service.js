@@ -17,7 +17,7 @@ const placeCartServices = async (data) => {
     });
 
     if (exist) {
-      const error = new HttpError(400, "item found in wishlist");
+      const error = new HttpError(400, "item found in cart");
       return { error };
     }
 
