@@ -10,13 +10,22 @@ const placeCartServices = async (data) => {
   const { productId, medicineId, _id } = data;
   // console.log('data: ', data);
   try {
-    const exist = await Cart.findOne({
+    const prod = await Cart.findOne({
       product: productId,
+      owner: { _id },
+    });
+
+    if (prod) {
+      const error = new HttpError(400, "item found in cart");
+      return { error };
+    }
+
+    const med = await Cart.findOne({
       medicine: medicineId,
       owner: { _id },
     });
 
-    if (exist) {
+    if (med) {
       const error = new HttpError(400, "item found in cart");
       return { error };
     }
