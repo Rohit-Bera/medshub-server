@@ -78,7 +78,7 @@ const postWishlistMedicineApi = async (data) => {
       owner: { _id },
     });
     if (exist) {
-      const error = new HttpError(500, "item found in wishlist");
+      const error = new HttpError(400, "item found in wishlist");
       return { error };
     }
     const liked = new Wishlist({ medicine: medicineId, owner: { _id } });
