@@ -12,7 +12,9 @@ const cartController = async (request, response, next) => {
   const data = { productId, medicineId, _id };
   const data1 = await cartServices.placeCartServices(data);
   const { cart, error } = data1;
+  console.log("error: ", error);
   if (error) {
+    response.json({ error });
     return next(error);
   }
   response.json({ status: "200", cart });
