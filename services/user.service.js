@@ -86,6 +86,8 @@ const logInServices = async (loginUser) => {
 
 //edit user services
 const editUserServices = async (_id, data) => {
+  console.log('_id: ', _id);
+  console.log('data: ', data);
   try {
     const editUser = await User.findByIdAndUpdate(
       { _id },
@@ -93,6 +95,7 @@ const editUserServices = async (_id, data) => {
       { new: true }
     );
     console.log("editUser: ", editUser);
+    
     if (!editUser) {
       const error = new HttpError(404, "Profile Not Found!");
       console.log("error: ", error);

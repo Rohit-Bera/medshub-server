@@ -70,7 +70,7 @@ app.get("/", (req, res) => {
 const server = http.createServer(app);
 
 const stripe = require("stripe")(
-  "sk_test_51K9BzESJxF1xgWl3JLOMf6IEpQgQUH2WR3tt06lhNFAy3T5OA3FtYEFbYJdkgV3A2kaA0HyBk40HbIpmpZdNyQOt00gX6dmKEF"
+  "sk_test_51K9BzESJxF1xgWl3CqlCFdNMCowV0HhuKfp4GAaQnxCceUPYHL2v4ypMBI3ayCbA3uibsXW7xiXfEsurp8XhQxFO00sDTjV2KR"
 );
 
 app.post("/paymentStripe", (req, res) => {
