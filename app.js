@@ -73,6 +73,7 @@ const stripe = require("stripe")(
   "sk_test_51K9BzESJxF1xgWl3CqlCFdNMCowV0HhuKfp4GAaQnxCceUPYHL2v4ypMBI3ayCbA3uibsXW7xiXfEsurp8XhQxFO00sDTjV2KR"
 );
 
+//payment
 app.post("/paymentStripe", (req, res) => {
   const { item, token } = req.body;
   console.log("token: ", token);
@@ -101,15 +102,49 @@ app.post("/paymentStripe", (req, res) => {
 
     if (createPayment) {
       res.status(200).json({ result: "success", createPayment });
+     
     } else {
       res.status(200).json({ result: "failure", createPayment });
     }
   } catch (error) {
     console.log("error: ", error);
-
     res.status(200).json({ status: "something went wrong", error });
   }
 });
+//mailer
+//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
+// app.get("/sendMail", async (request,response)=>{
+//    try {
+//     var transporter = nodemailer.createTransport({
+//         service: 'gmail',
+//         auth: {
+//           user: 'manthanthakkar02@gmail.com',
+//           pass: '7567527578'
+//         }
+//       });
+      
+//       var mailOptions = {
+//         from: 'manthanthakkar02@gmail.com',
+//         to: 'manthanthakkr@gmail.com',
+//         subject: 'Sending Email using Node.js',
+//         text: 'That was easy!',
+//         html: '<h1>welcome</h1><p>that was easy</p>'
+//       };
+      
+//       const email= await transporter.sendMail(mailOptions, function(error, info){
+//         if (error) {
+//           console.log(error);
+//         } else {
+//           console.log('Email sent: ' + info.response);
+         
+//         }
+//       });
+//    } catch (error) {
+//        console.log('error: ', error);
+       
+//    }
+// });
+
 //listen
 const port = process.env.PORT || 5500;
 

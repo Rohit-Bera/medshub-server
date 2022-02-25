@@ -6,14 +6,40 @@ const placeOrderController = async (request, response, next) => {
   const { productId, medicineId } = request.query;
   // console.log('productId: ', productId);
   const user = request.user;
-  //   console.log("user: ", user);
+    // console.log("user: ", user);
   const _id = user._id;
+  const email = user.email;
+  const username = user.name;
   //   console.log('_id: ', _id);
-  const data = { productId, medicineId, _id };
+  const data = { productId, medicineId, _id,email,username };
   const data1 = await orderServices.placeOrderServices(data);
   const { order, error } = data1;
   if (error) {
     return next(error);
+  }
+  if(order){
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "Auto email Message",
+      text: `Hello ${username} , you have successfully placed your order . wait for your delievery! . soon your order would be dispatched.`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
   }
   response.json({ status: "200", order });
 };
