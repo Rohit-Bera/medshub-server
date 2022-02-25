@@ -1,6 +1,7 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
-
+const nodemailer = require('nodemailer');
+const sendGridTransport = require('nodemailer-sendgrid-transport');
 //placeorder controller
 const placeOrderController = async (request, response, next) => {
   const { productId, medicineId } = request.query;

@@ -3,8 +3,7 @@ const { request, response } = require("express");
 const HttpError = require("../middlewares/HttpError");
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
-const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport'); 
+ 
 // PlaceOrderServices
 
 
