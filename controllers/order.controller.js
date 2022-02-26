@@ -1,7 +1,6 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
 const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport');
 require("dotenv").config();
 
 //placeorder controller
