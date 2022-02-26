@@ -1,7 +1,6 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
-const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport');
+
 //placeorder controller
 const placeOrderController = async (request, response, next) => {
   const { productId, medicineId } = request.query;
@@ -18,30 +17,8 @@ const placeOrderController = async (request, response, next) => {
   if (error) {
     return next(error);
   }
-  if(order){
-    var transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.ADMIN,
-        pass: process.env.PASS,
-      },
-    });
-
-    var mailOptions = {
-      from: process.env.ADMIN,
-      to: email,
-      subject: "Auto email Message",
-      text: `Hello ${username} , you have successfully placed your order . wait for your delievery! . soon your order would be dispatched.`,
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
-  }
+  console.log('order: ', order);
+  
   response.json({ status: "200", order });
 };
 //myorders for user
