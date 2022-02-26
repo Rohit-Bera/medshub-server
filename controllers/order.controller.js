@@ -1,5 +1,6 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
+require("dotenv").config();
 
 //placeorder controller
 const placeOrderController = async (request, response, next) => {
