@@ -11,31 +11,7 @@ const sendGridTransport = require('nodemailer-sendgrid-transport');
 const placeOrderServices = async (data) => {
   // console.log('PlaceOrder: ', PlaceOrder);
   const { productId, medicineId, _id,username,email } = data;
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.ADMIN,
-      pass: process.env.PASS,
-    },
-  });
-
-  var mailOptions = {
-    from: process.env.ADMIN,
-    to: email,
-    subject: "NO reply",
-    html:`<p>Hello ${username},</p>
-    <p>ThankYou for your order of "pName" and for your prompt online payment. Your order will be shipped within three to five business days.
-     We will send you a quick e-mail when it is shipped.</p>
-     <p>We hope you enjoyed shopping with us.</p>`
-  };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  
   // console.log('data: ', data);
   try {
     
