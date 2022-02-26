@@ -1,5 +1,6 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 //placeorder controller
