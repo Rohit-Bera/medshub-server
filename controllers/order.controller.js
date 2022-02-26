@@ -1,23 +1,24 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
+require("dotenv").config();
 
 //placeorder controller
 const placeOrderController = async (request, response, next) => {
   const { productId, medicineId } = request.query;
   // console.log('productId: ', productId);
   const user = request.user;
-    // console.log("user: ", user);
+  // console.log("user: ", user);
   const _id = user._id;
   const email = user.email;
   const username = user.name;
   //   console.log('_id: ', _id);
-  const data = { productId, medicineId, _id,email,username };
+  const data = { productId, medicineId, _id, email, username };
   const data1 = await orderServices.placeOrderServices(data);
   const { order, error } = data1;
   if (error) {
     return next(error);
   }
-  if(order){
+  if (order) {
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -25,17 +26,17 @@ const placeOrderController = async (request, response, next) => {
         pass: process.env.PASS,
       },
     });
-  
+
     var mailOptions = {
       from: process.env.ADMIN,
       to: email,
       subject: "NO reply",
-      html:`<p>Hello ${username},</p>
+      html: `<p>Hello ${username},</p>
       <p>ThankYou for your order of "pName" and for your prompt online payment. Your order will be shipped within three to five business days.
        We will send you a quick e-mail when it is shipped.</p>
-       <p>We hope you enjoyed shopping with us.</p>`
+       <p>We hope you enjoyed shopping with us.</p>`,
     };
-  
+
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -44,8 +45,8 @@ const placeOrderController = async (request, response, next) => {
       }
     });
   }
-  console.log('order: ', order);
-  
+  console.log("order: ", order);
+
   response.json({ status: "200", order });
 };
 //myorders for user

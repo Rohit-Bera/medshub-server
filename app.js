@@ -16,7 +16,7 @@ const app = express();
 
 app.use(bodyparser.json());
 app.use(cors());
-// app.use(express.static("public"));
+app.use(express.static("public"));
 
 // mongo db connection
 
@@ -102,7 +102,6 @@ app.post("/paymentStripe", (req, res) => {
 
     if (createPayment) {
       res.status(200).json({ result: "success", createPayment });
-     
     } else {
       res.status(200).json({ result: "failure", createPayment });
     }
@@ -122,7 +121,7 @@ app.post("/paymentStripe", (req, res) => {
 //           pass: '7567527578'
 //         }
 //       });
-      
+
 //       var mailOptions = {
 //         from: 'manthanthakkar02@gmail.com',
 //         to: 'manthanthakkr@gmail.com',
@@ -130,18 +129,18 @@ app.post("/paymentStripe", (req, res) => {
 //         text: 'That was easy!',
 //         html: '<h1>welcome</h1><p>that was easy</p>'
 //       };
-      
+
 //       const email= await transporter.sendMail(mailOptions, function(error, info){
 //         if (error) {
 //           console.log(error);
 //         } else {
 //           console.log('Email sent: ' + info.response);
-         
+
 //         }
 //       });
 //    } catch (error) {
 //        console.log('error: ', error);
-       
+
 //    }
 // });
 
