@@ -45,7 +45,7 @@ const placeOrderController = async (request, response, next) => {
       <spanProduct Description : "${productDescription}"</span><br></br>
       <span>--------------------------------------------------</span><br></br>
       <span>Product Price : "${productPrice}"</span><br></br>
-      <span>--------------------------------------------------</span><br></br>A
+      <span>--------------------------------------------------</span><br></br>
       </p>
 
      
