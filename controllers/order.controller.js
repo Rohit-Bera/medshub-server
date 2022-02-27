@@ -1,6 +1,6 @@
 const { request } = require("http");
 const orderServices = require("../services/order.service");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
@@ -9,6 +9,7 @@ const Medicine = require("../models/medicineModel");
 const placeOrderController = async (request, response, next) => {
   const { productId, medicineId } = request.query;
   const user = request.user;
+
   const _id = user._id;
   const email = user.email;
   const username = user.name;
@@ -19,8 +20,7 @@ const placeOrderController = async (request, response, next) => {
  if(product)
  {
   const prod = await Product.findOne();
-  const {productName,productPrice,productBrand,productDescription} = prod
-    
+  const {productName,productPrice,productBrand,productDescription} = prod;
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -28,7 +28,7 @@ const placeOrderController = async (request, response, next) => {
         pass: process.env.PASS,
       },
     });
-  
+
     var mailOptions = {
       from: process.env.ADMIN,
       to: email,
@@ -53,8 +53,9 @@ const placeOrderController = async (request, response, next) => {
        <br></br><br></br><br></br>
        <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>
        `
+
     };
-  
+
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -109,9 +110,8 @@ const placeOrderController = async (request, response, next) => {
   if (error) {
     return next(error);
   }
-  
-  console.log('order: ', order);
-  
+
+  console.log("order: ", order);
   response.json({ status: "200", order });
 };
 //myorders for user
