@@ -3,6 +3,8 @@ const User = require("../models/usersModel");
 const { request, response } = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const JWT_SECRET = 'some super secret...'
+
 
 //hashing password
 const hashPassword = async (user) => {
@@ -151,10 +153,47 @@ const getAllUsersServices = async ()=>{
 
   }
 }
+
+const forgotPassServices = async(forgot)=>{
+ 
+  try{
+    const {email,password} = forgot
+    const isUser = await User.findOne({ email });
+    if (!isUser) {
+      const error = new HttpError(404, "User is not  exist");
+      console.log("error: ", error);
+      return { error };
+    }
+  const secret = JWT_SECRET + password
+  const payload = {
+    email:email,
+  }
+  const token = jwt.sign(payload,secret,{expiresIn:'15m'})
+  const link = `http://localhost:5500/reset-password/${token}`
+  console.log('link: ', link);
+  return {link};
+  }
+  catch(error){
+    const err = new HttpError(
+      500,
+      "something went Wrong in delete user services"
+    );
+    console.log("error: ", err);
+    return error;
+  }
+}
+
+const resetPassServices = async(_id,token)=>{
+  console.log('token: ', token);
+  console.log('_id: ', _id);
+  
+}
 module.exports = {
   signUpServices,
   logInServices,
   editUserServices,
   deleteUserServices,
-  getAllUsersServices
+  getAllUsersServices,
+  forgotPassServices,
+  resetPassServices
 };

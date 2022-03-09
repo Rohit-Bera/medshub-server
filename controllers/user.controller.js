@@ -34,7 +34,6 @@ const logIn = async (request, response, next) => {
 const edit = async (request, response, next) => {
   const _id = request.params.id;
   const data = request.body;
-
   const update = await profileService.editUserServices(_id, data);
   const { editUser, error } = update;
   if (error) {
@@ -62,5 +61,22 @@ const getAllUsers = async(request,response,next)=>{
   }
   response.json({status:"200",allusers})
 }
+//forgotpassword
+const forgotPass = async(request,response,next)=>{
 
-module.exports = { signUp, logIn, edit, deleteUser, getAllUsers };
+  const { email,password } = request.body;
+  console.log('password: ', password);
+  console.log('email: ', email);
+  const data = await profileService.forgotPassServices(request.body);
+  const {link,error} = data; 
+  if (error) {
+    return next(error);
+  }
+  response.json({status:"200",link})
+}
+const resetPass = async(request,response,next)=>{
+  const _id = request.params.id;
+  const token = rerquest.params.token;
+  const data = await profileService.resetPassServices(_id,token);
+}
+module.exports = { signUp, logIn, edit, deleteUser, getAllUsers,forgotPass,resetPass };
