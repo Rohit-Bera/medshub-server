@@ -7,6 +7,7 @@ const service = require("../services/chatbot.service");
 //text query
 const postChatbot = async (request, response, next) => {
   const { userMessage } = request.body;
+  console.log("userMessage: ", userMessage);
 
   const send = await service.chatbotPostService(userMessage);
 

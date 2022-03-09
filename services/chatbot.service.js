@@ -59,8 +59,8 @@ const chatbotPostService = async (userMessage) => {
       return { error };
     }
 
-    // const botMessage = { query, reply, intent };
-    const botMessage = result;
+    const botMessage = { query, reply, intent };
+    // const botMessage = result;
     return { botMessage };
   } catch (error) {
     console.log("error : ", error);
