@@ -15,8 +15,8 @@ const addProduct = async (req, res, next) => {
   console.log("req.body: ", req.body);
 
   const reqfiles = [];
-  const url = req.protocol + "://" + req.get("host"); // for local use
-  // const url = "https://medshub-backend.herokuapp.com";
+  // const url = req.protocol + "://" + req.get("host"); // for local use
+  const url = "https://medshub-backend.herokuapp.com";
   if (req.files === []) {
     const nofile = new HttpError(500, "no file chosen");
     return { nofile };

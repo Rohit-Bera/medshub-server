@@ -8,6 +8,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const uuid = require("uuid");
 
+
 require("dotenv").config();
 
 //connection
@@ -17,7 +18,9 @@ const app = express();
 app.use(bodyparser.json());
 app.use(cors());
 app.use(express.static("public"));
-
+//for pass
+app.use(express.urlencoded({extended:false}))
+app.set('view engine','ejs')
 // mongo db connection
 
 const mongouri = process.env.MONGODBURI;
@@ -111,8 +114,18 @@ app.post("/paymentStripe", (req, res) => {
   }
 });
 
+// app.get("/forgot-password",(req,res,next)=>{
+
+// })
 
 
+
+
+// app.get("/reset-password",(req,res,next)=>{
+  
+// })
+ 
+// app.post("/reset-password",(req,res,next)=>{});
 //listen
 const port = process.env.PORT || 5500;
 
