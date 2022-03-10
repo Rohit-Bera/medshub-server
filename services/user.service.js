@@ -154,40 +154,46 @@ const getAllUsersServices = async ()=>{
   }
 }
 
-const forgotPassServices = async(forgot)=>{
+const forgotPassServices = async(email)=>{
  
   try{
-    const {email,password} = forgot
+    
     const isUser = await User.findOne({ email });
+    console.log('isUser: ', isUser);
     if (!isUser) {
       const error = new HttpError(404, "User is not  exist");
       console.log("error: ", error);
       return { error };
     }
-  const secret = JWT_SECRET + password
-  const payload = {
-    email:email,
-  }
-  const token = jwt.sign(payload,secret,{expiresIn:'15m'})
-  const link = `http://localhost:5500/reset-password/${token}`
-  console.log('link: ', link);
-  return {link};
+
+  
+  
   }
   catch(error){
     const err = new HttpError(
       500,
-      "something went Wrong in delete user services"
+      "something went Wrong in forget pass services"
     );
     console.log("error: ", err);
     return error;
   }
 }
 
-const resetPassServices = async(_id,token)=>{
+const resetPassServices = async(_id, token,email)=>{
   console.log('token: ', token);
   console.log('_id: ', _id);
+  const isUser = await User.findOne({ email });
+ 
   
+  const secret = JWT_SECRET + isUser.password;
+  try {
+    const payload = jwt.verify(token,secret)
+  } catch (error) {
+    console.log('error: ', error);
+    
+  }
 }
+
 module.exports = {
   signUpServices,
   logInServices,
@@ -195,5 +201,6 @@ module.exports = {
   deleteUserServices,
   getAllUsersServices,
   forgotPassServices,
-  resetPassServices
+  resetPassServices,
+
 };

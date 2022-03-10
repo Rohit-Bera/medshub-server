@@ -64,10 +64,9 @@ const getAllUsers = async(request,response,next)=>{
 //forgotpassword
 const forgotPass = async(request,response,next)=>{
 
-  const { email,password } = request.body;
-  console.log('password: ', password);
+  const { email } = request.body;
   console.log('email: ', email);
-  const data = await profileService.forgotPassServices(request.body);
+  const data = await profileService.forgotPassServices(email);
   const {link,error} = data; 
   if (error) {
     return next(error);
@@ -75,8 +74,11 @@ const forgotPass = async(request,response,next)=>{
   response.json({status:"200",link})
 }
 const resetPass = async(request,response,next)=>{
+  const { email } = request.body;
   const _id = request.params.id;
-  const token = rerquest.params.token;
-  const data = await profileService.resetPassServices(_id,token);
+  const token = request.params.token;
+  const data = await profileService.resetPassServices(_id,token,email);
 }
+
+
 module.exports = { signUp, logIn, edit, deleteUser, getAllUsers,forgotPass,resetPass };
