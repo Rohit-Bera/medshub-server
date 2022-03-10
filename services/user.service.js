@@ -193,6 +193,9 @@ const resetPassServices = async (email, password) => {
     const hashedPassword = await resethashPassword(password);
     password = hashedPassword;
 
+    const token = await generateAuthToken(isUser);
+    console.log("token: ", token);
+
     const body = { email, password };
 
     const updatePass = await User.findByIdAndUpdate(
@@ -204,7 +207,12 @@ const resetPassServices = async (email, password) => {
     console.log("updatePass: ", updatePass);
 
     if (updatePass) {
-      const result = { status: "200", message: "user password updated" };
+      const result = {
+        status: "200",
+        message: "user password updated",
+        updatePass,
+        token,
+      };
 
       return { result };
     } else {
