@@ -15,8 +15,8 @@ const addProduct = async (req, res, next) => {
   console.log("req.body: ", req.body);
 
   const reqfiles = [];
-  // const url = req.protocol + "://" + req.get("host"); // for local use
-  const url = "https://medshub-backend.herokuapp.com";
+  const url = req.protocol + "://" + req.get("host"); // for local use
+  // const url = "https://medshub-backend.herokuapp.com";
   if (req.files === []) {
     const nofile = new HttpError(500, "no file chosen");
     return { nofile };
@@ -69,8 +69,8 @@ const updateProduct = async (request, response, next) => {
 
   if (productImage === undefined) {
     const reqfiles = [];
-    // const url = request.protocol + "://" + request.get("host"); // for local use
-    const url = "https://medshub-backend.herokuapp.com";
+    const url = request.protocol + "://" + request.get("host"); // for local use
+    // const url = "https://medshub-backend.herokuapp.com";
     if (request.files === []) {
       const nofile = new HttpError(500, "no file chosen");
       response.json(nofile);
