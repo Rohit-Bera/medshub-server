@@ -2,15 +2,15 @@ const { request } = require("http");
 const cartServices = require("../services/cart.service");
 
 //placeorder controller
-const cartController = async (request, response, next) => {
-  const { productId, medicineId } = request.query;
+const postCartProdController = async (request, response, next) => {
+  const { productId } = request.query;
   // console.log('productId: ', productId);
   const user = request.user;
   //   console.log("user: ", user);
   const _id = user._id;
   //   console.log('_id: ', _id);
-  const data = { productId, medicineId, _id };
-  const data1 = await cartServices.placeCartServices(data);
+  const data = { productId, _id };
+  const data1 = await cartServices.placeProdCartServices(data);
   const { cart, error } = data1;
   console.log("error: ", error);
   if (error) {
@@ -19,6 +19,25 @@ const cartController = async (request, response, next) => {
   }
   response.json({ status: "200", cart });
 };
+
+const postCartMedController = async (request, response, next) => {
+  const { medicineId } = request.query;
+
+  const user = request.user;
+
+  const _id = user._id;
+
+  const data = { medicineId, _id };
+  const data1 = await cartServices.placeMedCartServices(data);
+  const { cart, error } = data1;
+  console.log("error: ", error);
+  if (error) {
+    response.json({ error });
+    return next(error);
+  }
+  response.json({ status: "200", cart });
+};
+
 //myorders for user
 const myCartController = async (request, response, next) => {
   const user = request.user;
@@ -44,7 +63,8 @@ const cancleCartController = async (request, response, next) => {
 };
 
 module.exports = {
-  cartController,
+  postCartProdController,
+  postCartMedController,
   myCartController,
   cancleCartController,
 };

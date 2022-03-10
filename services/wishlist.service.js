@@ -9,6 +9,7 @@ const postWishlistProductApi = async (data) => {
       product: productId,
       owner: { _id },
     });
+    console.log("exist: ", exist);
     if (exist) {
       const error = new HttpError(400, "item found in wishlist");
       return { error };

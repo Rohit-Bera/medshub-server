@@ -3,14 +3,16 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 //controller
 const {
-  cartController,
+  postCartProdController,
+  postCartMedController,
   myCartController,
   cancleCartController,
 } = require("../controllers/cart.conrtoller");
 //routes
 
 // for user
-router.post("/addToCart", auth, cartController);
+router.post("/addProdToCart", auth, postCartProdController);
+router.post("/addMedToCart", auth, postCartMedController);
 router.get("/myCart", auth, myCartController);
 router.delete("/deleteFromCart/:id", auth, cancleCartController);
 

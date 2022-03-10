@@ -5,34 +5,25 @@ const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 
 // PlaceOrderServices
-const placeCartServices = async (data) => {
+const placeProdCartServices = async (data) => {
   // console.log('PlaceOrder: ', PlaceOrder);
-  const { productId, medicineId, _id } = data;
-  // console.log('data: ', data);
+  const { productId, _id } = data;
+  console.log("data: ", data);
   try {
     const prod = await Cart.findOne({
       product: productId,
       owner: { _id },
     });
 
+    console.log("prod: ", prod);
+
     if (prod) {
-      const error = new HttpError(400, "item found in cart");
-      return { error };
-    }
-
-    const med = await Cart.findOne({
-      medicine: medicineId,
-      owner: { _id },
-    });
-
-    if (med) {
       const error = new HttpError(400, "item found in cart");
       return { error };
     }
 
     const cart = new Cart({
       product: productId,
-      medicine: medicineId,
       owner: { _id },
     });
     console.log("cart: ", cart);
@@ -44,6 +35,38 @@ const placeCartServices = async (data) => {
     return { error };
   }
 };
+
+// PlaceOrderServices
+const placeMedCartServices = async (data) => {
+  // console.log('PlaceOrder: ', PlaceOrder);
+  const { productId, medicineId, _id } = data;
+  console.log("data: ", data);
+  try {
+    const med = await Cart.findOne({
+      medicine: medicineId,
+      owner: { _id },
+    });
+
+    if (med) {
+      const error = new HttpError(400, "item found in cart");
+      return { error };
+    }
+
+    const cart = new Cart({
+      medicine: medicineId,
+      owner: { _id },
+    });
+
+    console.log("cart: ", cart);
+    await cart.save();
+    return { cart };
+  } catch (err) {
+    const error = new HttpError(404, "Sorry we can't PlaceOrder");
+    console.log("error: ", error);
+    return { error };
+  }
+};
+
 // myOrderServices
 const myCartServices = async (myCart) => {
   const { _id } = myCart;
@@ -81,7 +104,8 @@ const cancleCartServices = async (_id) => {
 };
 
 module.exports = {
-  placeCartServices,
+  placeMedCartServices,
+  placeProdCartServices,
   myCartServices,
   cancleCartServices,
 };
