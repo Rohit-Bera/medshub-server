@@ -53,32 +53,48 @@ const deleteUser = async (request, response, next) => {
   response.json({ status: "200", deleteUserAccount });
 };
 //get all user
-const getAllUsers = async(request,response,next)=>{
+const getAllUsers = async (request, response, next) => {
   const user = await profileService.getAllUsersServices();
-  const {allusers,error} = user;
+  const { allusers, error } = user;
   if (error) {
     return next(error);
   }
-  response.json({status:"200",allusers})
-}
+  response.json({ status: "200", allusers });
+};
 //forgotpassword
-const forgotPass = async(request,response,next)=>{
-
+const forgotPass = async (request, response, next) => {
   const { email } = request.body;
-  console.log('email: ', email);
+  console.log("email: ", email);
   const data = await profileService.forgotPassServices(email);
-  const {link,error} = data; 
+  const { result, error } = data;
+  console.log("result: ", result);
   if (error) {
+    response.json({ error });
+
     return next(error);
   }
-  response.json({status:"200",link})
-}
-const resetPass = async(request,response,next)=>{
-  const { email } = request.body;
-  const _id = request.params.id;
-  const token = request.params.token;
-  const data = await profileService.resetPassServices(_id,token,email);
-}
+  response.json({ result });
+};
+const resetPass = async (request, response, next) => {
+  const { email, password } = request.body;
 
+  const data = await profileService.resetPassServices(email, password);
 
-module.exports = { signUp, logIn, edit, deleteUser, getAllUsers,forgotPass,resetPass };
+  const { result, error } = data;
+
+  if (error) {
+    response.json({ error });
+    return next(error);
+  }
+  response.json({ result });
+};
+
+module.exports = {
+  signUp,
+  logIn,
+  edit,
+  deleteUser,
+  getAllUsers,
+  forgotPass,
+  resetPass,
+};

@@ -3,8 +3,7 @@ const User = require("../models/usersModel");
 const { request, response } = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const JWT_SECRET = 'some super secret...'
-
+const JWT_SECRET = "some super secret...";
 
 //hashing password
 const hashPassword = async (user) => {
@@ -88,8 +87,8 @@ const logInServices = async (loginUser) => {
 
 //edit user services
 const editUserServices = async (_id, data) => {
-  console.log('_id: ', _id);
-  console.log('data: ', data);
+  console.log("_id: ", _id);
+  console.log("data: ", data);
   try {
     const editUser = await User.findByIdAndUpdate(
       { _id },
@@ -97,7 +96,7 @@ const editUserServices = async (_id, data) => {
       { new: true }
     );
     console.log("editUser: ", editUser);
-    
+
     if (!editUser) {
       const error = new HttpError(404, "Profile Not Found!");
       console.log("error: ", error);
@@ -136,40 +135,35 @@ const deleteUserServices = async (_id) => {
   }
 };
 
-
-const getAllUsersServices = async ()=>{
-  try{
+const getAllUsersServices = async () => {
+  try {
     const allusers = await User.find();
-    if(!allusers){
-      const error = new HttpError(404,"User Not Found!");
+    if (!allusers) {
+      const error = new HttpError(404, "User Not Found!");
 
-      return{error};
+      return { error };
     }
-    return {allusers};
-  }catch(error){
-    console.log('error: ', error);
-    return{error};
-
-
+    return { allusers };
+  } catch (error) {
+    console.log("error: ", error);
+    return { error };
   }
-}
+};
 
-const forgotPassServices = async(email)=>{
- 
-  try{
-    
+const forgotPassServices = async (email) => {
+  try {
     const isUser = await User.findOne({ email });
-    console.log('isUser: ', isUser);
+    console.log("isUser: ", isUser);
     if (!isUser) {
-      const error = new HttpError(404, "User is not  exist");
+      const error = new HttpError(404, "User does not  exist");
       console.log("error: ", error);
       return { error };
     }
 
-  
-  
-  }
-  catch(error){
+    const result = { status: 200, message: "User Found" };
+
+    return { result };
+  } catch (error) {
     const err = new HttpError(
       500,
       "something went Wrong in forget pass services"
@@ -177,22 +171,66 @@ const forgotPassServices = async(email)=>{
     console.log("error: ", err);
     return error;
   }
-}
+};
 
-const resetPassServices = async(_id, token,email)=>{
-  console.log('token: ', token);
-  console.log('_id: ', _id);
-  const isUser = await User.findOne({ email });
- 
-  
-  const secret = JWT_SECRET + isUser.password;
+const resethashPassword = async (password) => {
+  const hashedPassword = await bcrypt.hash(password, 8);
+  return hashedPassword;
+};
+
+const resetPassServices = async (email, password) => {
   try {
-    const payload = jwt.verify(token,secret)
+    const isUser = await User.findOne({ email });
+    console.log("isUser: ", isUser);
+    if (!isUser) {
+      const error = new HttpError(404, "User does not  exist");
+      console.log("error: ", error);
+      return { error };
+    }
+
+    const { _id } = isUser;
+
+    const hashedPassword = await resethashPassword(password);
+    password = hashedPassword;
+
+    const token = await generateAuthToken(isUser);
+    console.log("token: ", token);
+
+    const body = { email, password };
+
+    const updatePass = await User.findByIdAndUpdate(
+      { _id },
+      { $set: body },
+      { new: true }
+    );
+
+    console.log("updatePass: ", updatePass);
+
+    if (updatePass) {
+      const result = {
+        status: "200",
+        message: "user password updated",
+        updatePass,
+        token,
+      };
+
+      return { result };
+    } else {
+      const error = new HttpError(404, "password Not update!");
+      console.log("error: ", error);
+      return { error };
+    }
   } catch (error) {
-    console.log('error: ', error);
-    
+    console.log("error: ", error);
+
+    const err = new HttpError(
+      500,
+      "something went Wrong in forget pass services"
+    );
+    console.log("error: ", err);
+    return error;
   }
-}
+};
 
 module.exports = {
   signUpServices,
@@ -202,5 +240,4 @@ module.exports = {
   getAllUsersServices,
   forgotPassServices,
   resetPassServices,
-
 };
