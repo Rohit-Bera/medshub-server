@@ -15,10 +15,10 @@ const addMedicine = async (request, response, next) => {
 
   const reqfiles = [];
 
-  const url = request.protocol + "://" + request.get("host");
+  // const url = request.protocol + "://" + request.get("host");
   // for testing purpose
 
-  // const url = "https://medshub-backend.herokuapp.com";
+  const url = "https://medshub-backend.herokuapp.com";
 
   if (request.files === []) {
     const nofile = new HttpError(500, "no file chosen");
@@ -93,7 +93,8 @@ const updateMedicine = async (request, response, next) => {
     if (medicineImage === undefined || medicineImage === []) {
       const reqfiles = [];
 
-      const url = request.protocol + "://" + request.get("host");
+      // const url = request.protocol + "://" + request.get("host");
+      const url = "https://medshub-backend.herokuapp.com";
 
       if (request.files === []) {
         console.log("request.files: ", request.files);
