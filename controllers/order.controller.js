@@ -113,7 +113,7 @@ const placeOrderController = async (request, response, next) => {
        <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>
        `,
        attachments:[
-        {   // filename and content type is derived from path
+        {
           path: 'invoice.pdf'
       },
        ]
