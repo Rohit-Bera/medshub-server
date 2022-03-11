@@ -9,7 +9,7 @@ const Product = require("../models/productModel");
 
 const placeOrderServices = async (data) => {
   // console.log('PlaceOrder: ', PlaceOrder);
-  const { productId, medicineId, _id,username,email } = data;
+  const { productId, medicineId, _id,username,email,address } = data;
   
   // console.log('data: ', data);
   try {

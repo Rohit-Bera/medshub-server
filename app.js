@@ -8,7 +8,6 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const uuid = require("uuid");
 
-
 require("dotenv").config();
 
 //connection
@@ -51,7 +50,7 @@ const cartRoutes = require("./routes/cart.routes");
 app.use("/productimages", express.static("upload/productimages"));
 app.use("/medicineimages", express.static("upload/medicineimages"));
 app.use("/prescriptionimage", express.static("upload/prescriptionimage"));
-
+app.use("/logo", express.static("upload/logo"));
 // <---- Routes --->
 
 app.use(productRoutes);
@@ -72,6 +71,8 @@ app.get("/", (req, res) => {
 
 const server = http.createServer(app);
 
+
+//payment
 const stripe = require("stripe")(
   "sk_test_51K9BzESJxF1xgWl3CqlCFdNMCowV0HhuKfp4GAaQnxCceUPYHL2v4ypMBI3ayCbA3uibsXW7xiXfEsurp8XhQxFO00sDTjV2KR"
 );

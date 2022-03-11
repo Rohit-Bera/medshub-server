@@ -1,10 +1,14 @@
 const { request } = require("http");
+const fs = require("fs");
 const orderServices = require("../services/order.service");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
 const Medicine = require("../models/medicineModel");
+const easyinvoice = require("easyinvoice");
+
+
 //placeorder controller
 const placeOrderController = async (request, response, next) => {
   const { productId, medicineId } = request.query;
@@ -13,14 +17,69 @@ const placeOrderController = async (request, response, next) => {
   const _id = user._id;
   const email = user.email;
   const username = user.name;
-  const data = { productId, medicineId, _id,email,username };
+  const address = user.address;
+  const data = { productId, medicineId, _id,email,username,address };
   const data1 = await orderServices.placeOrderServices(data);
   const { order, error } = data1;
   const {product,medicine} = order
  if(product)
  {
   const prod = await Product.findOne();
-  const {productName,productPrice,productBrand,productDescription} = prod;
+  const {productName,productPrice,productBrand, productDescription} = prod;
+  var datas = {
+    
+    
+    // "images":{
+    //   "logo": "https://localhost:5500/logo/logo.png",
+    // } ,//or base64
+   
+    "sender": {
+        "company": "MedsHub24/7",
+        "address": "Gls University",
+        "zip": "380006",
+        "city": "Ahmedabad",
+        "country": "India"
+        
+    },
+    "client": {
+        "company": username,
+        "address": address,
+        "zip": "380006",
+        "city": "Ahmedabad",
+        "country": "India"
+       
+    },
+    "information": {
+      "number": "2022.0001",
+      "date": "11-03-2022",
+    },
+   
+    "products": [
+        {
+            "quantity": "1",
+            "description": productName,
+            "tax-rate": 18,
+            "price": productPrice,
+        },
+       
+    ],
+    "bottomNotice": "Kindly pay your invoice within 15 days.",
+    "settings":{
+      "currency": "INR",
+      "tax-notation": "gst",
+      "marginTop": 25,
+      "marginRight": 25,
+      "marginLeft": 25,
+      "marginBottom": 25,
+     
+    },
+};
+  
+  //Create your invoice! Easy!
+  easyinvoice.createInvoice(datas, async function (result) {
+    console.log(result.pdf);
+    await fs.writeFileSync("invoice.pdf", result.pdf, 'base64');
+  });
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -52,8 +111,12 @@ const placeOrderController = async (request, response, next) => {
        <p>We hope you enjoyed shopping with us.</p>
        <br></br><br></br><br></br>
        <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>
-       `
-
+       `,
+       attachments:[
+        {   // filename and content type is derived from path
+          path: 'invoice.pdf'
+      },
+       ]
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -68,6 +131,60 @@ const placeOrderController = async (request, response, next) => {
  else if(medicine){
   const med = await Medicine.findOne();
   const {medicineName,medicinePrice,medicineDescription} = med
+  var datas = {
+    
+    
+    // "images":{
+    //   "logo": "https://localhost:5500/logo/logo.png",
+    // } ,//or base64
+   
+    "sender": {
+        "company": "MedsHub24/7",
+        "address": "Gls University",
+        "zip": "380006",
+        "city": "Ahmedabad",
+        "country": "India"
+        
+    },
+    "client": {
+        "company": username,
+        "address": address,
+        "zip": "380006",
+        "city": "Ahmedabad",
+        "country": "India"
+       
+    },
+    "information": {
+      "number": "2022.0001",
+      "date": "11-03-2022",
+    },
+   
+    "products": [
+        {
+            "quantity": "1",
+            "description": medicineName,
+            "tax-rate": 18,
+            "price": medicinePrice,
+        },
+       
+    ],
+    "bottom-notice": "Thank You for ordering with us Please visit again! ",
+    "settings":{
+      "currency": "INR",
+      "tax-notation": "gst",
+      "marginTop": 25,
+      "marginRight": 25,
+      "marginLeft": 25,
+      "marginBottom": 25,
+     
+    },
+};
+  
+  //Create your invoice! Easy!
+  easyinvoice.createInvoice(datas, async function (result) {
+    console.log(result.pdf);
+    await fs.writeFileSync("invoice.pdf", result.pdf, 'base64');
+  });
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -94,7 +211,12 @@ const placeOrderController = async (request, response, next) => {
       </p>
      <p>We hope you enjoyed shopping with us.</p>
      <br></br><br></br><br></br>
-       <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+       <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`,
+       attachments:[
+        {   // filename and content type is derived from path
+          path: 'invoice.pdf'
+      },
+       ]
      
   };
 

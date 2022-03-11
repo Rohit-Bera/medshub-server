@@ -17,6 +17,7 @@
     "crypto": "^1.0.1",
     "dialogflow": "^1.2.0",
     "dotenv": "^10.0.0",
+    "easyinvoice": "^2.3.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "googleapis": "^92.0.0",
