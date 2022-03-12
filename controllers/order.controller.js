@@ -252,11 +252,103 @@ const myOrderController = async (request, response, next) => {
 const cancleOrderController = async (request, response, next) => {
   const _id = request.params.id;
   console.log("_id: ", _id);
+  const user = request.user;
+  console.log('user: ', user);
+  const details = await Order.findById({_id}).populate("product").populate("medicine");
+  console.log('details: ', details);
+  const name = user.name;
+  const email = user.email;
+  
   const data = await orderServices.cancleOrderServices(_id);
   const { cancleOrder, error } = data;
+  if(cancleOrder && cancleOrder.medicine ){
+   const medicineName = details.medicine.medicineName;
+   const medicineDescription = details.medicine.medicineDescription;
+   const medicinePrice = details.medicine.medicinePrice;
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+  
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello ${name}<b></b>,</p>
+      <p>you cancelled your Order!
+      </p>
+      <p>Your Order Details</p><hr></hr>
+      <p><span>--------------------------------------------------</span><br></br>
+      <span>Medicine Name : "${medicineName}"</span><br></br>
+        <span>--------------------------------------------------</span><br></br>
+        <span>Medicine Description : "${medicineDescription}"</span><br></br>
+        <span>--------------------------------------------------</span><br></br>
+        <span>Medicine Price : "${medicinePrice}"</span><br></br>
+        <span>--------------------------------------------------</span><br></br>
+        </p>
+      <P>if you have any questions or need further information about your medicine than 
+      so you can contact us on our website.<p/>
+      <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
+  else if(cancleOrder && cancleOrder.product ){
+    const productName = details.product.productName;
+    const productBrand = details.product.productBrand;
+    const  productDescription = details.product.productDescription;
+    const productPrice = details.product.productPrice;
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+  
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello ${name}<b></b>,</p>
+      <p>you cancelled your Order!
+      </p>
+      <p>Your Order Details</p><hr></hr>
+      <p><span>--------------------------------------------------</span><br></br>
+     <span>Product Name : "${productName}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      <span>Product Brand : "${productBrand}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      <spanProduct Description : "${productDescription}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      <span>Product Price : "${productPrice}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      </p>
+      <P>if you have any questions or need further information about your medicine than 
+      so you can contact us on our website.<p/>
+      <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
   if (error) {
     return next(error);
-  }
+  } 
   response.json({ status: "200", cancleOrder });
 };
 
@@ -275,13 +367,109 @@ const updateOrderController = async (request, response, next) => {
   // console.log('_id: ', _id);
   const data = request.body;
   // console.log('data: ', data);
-  const user = request.user;
-  // console.log('user: ', user);
+ 
+  
   const data1 = { _id, data };
-  // console.log('data: ', data);
+  const user = await Order.findById({_id}).populate("owner").populate("product").populate("medicine");
+  console.log('user: ', user);
+  const name = user.owner.name;
+  const email = user.owner.email;
+  
+  const product = user.product
+  console.log('product: ', product);
+  const medicine = user.medicine
+  console.log('medicine: ', medicine);
+  
+  
+
   const update = await orderServices.updateOrderServices(data1);
   const { updateOrder, error } = update;
-  // console.log('updateOrder: ', updateOrder);
+  
+  if(updateOrder && updateOrder.medicine ){
+    const medicineName = user.medicine.medicineName;
+    const medicineDescription = user.medicine.medicineDescription;
+    const medicinePrice = user.medicine.medicinePrice;
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+  
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello ${name}<b></b>,</p>
+      <p>Your Medicine Order is Shipped You will get in one or two days.
+      </p>
+      <p>Your Order Details</p><hr></hr>
+      <p><span>--------------------------------------------------</span><br></br>
+      <span>Medicine Name : "${medicineName}"</span><br></br>
+        <span>--------------------------------------------------</span><br></br>
+        <span>Medicine Description : "${medicineDescription}"</span><br></br>
+        <span>--------------------------------------------------</span><br></br>
+        <span>Medicine Price : "${medicinePrice}"</span><br></br>
+        <span>--------------------------------------------------</span><br></br>
+        </p>
+      <P>if you have any questions or need further information about your medicine than 
+      so you can contact us on our website.<p/>
+      <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
+  else if(updateOrder && updateOrder.product ){
+    const productName = user.product.productName;
+    const productBrand = user.product.productBrand;
+    const productDescription = user.product.productDescription;
+    const productPrice = user.product.productPrice;
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+  
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello ${name}<b></b>,</p>
+      <p>Your product Order is Shipped You will get in one or two days.
+      </p>
+      <p>Your Order Details</p><hr></hr>
+      <p><span>--------------------------------------------------</span><br></br>
+     <span>Product Name : "${productName}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      <span>Product Brand : "${productBrand}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      <spanProduct Description : "${productDescription}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      <span>Product Price : "${productPrice}"</span><br></br>
+      <span>--------------------------------------------------</span><br></br>
+      </p>
+      <P>if you have any questions or need further information about your medicine than 
+      so you can contact us on our website.<p/>
+      <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
   if (error) {
     console.log("error: ", error);
     return next(error);

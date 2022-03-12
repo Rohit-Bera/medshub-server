@@ -1,6 +1,8 @@
 const { response } = require("express");
 const { request } = require("http");
 const profileService = require("../services/user.service");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 //signUp
 const signUp = async (request, response, next) => {
@@ -8,6 +10,35 @@ const signUp = async (request, response, next) => {
   console.log("request.body: ", request.body);
   const data = await profileService.signUpServices(request.body);
   const { signupuser, error } = data;
+  if(signupuser){
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello <b>${name}</b>,</p>
+      <p>You have succssfully registered with us. Now You can access all Services of Medshub24/7.</p>
+       <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>
+       `
+      
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  
+  }
   if (error) {
     return next(error);
   }
