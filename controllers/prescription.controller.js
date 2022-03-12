@@ -7,8 +7,6 @@ const { request } = require("http");
 const nodemailer = require("nodemailer");
 const Prescription = require("../models/prescriptionModel");
 
-
-
 // upload prescription controller
 const uploadPrescriptionController = async (request, response, next) => {
   const user = request.user;
@@ -61,17 +59,17 @@ const updatePrescriptionController = async (request, response, next) => {
   const data = request.body;
   console.log("data: ", data);
 
-  const user = await Prescription.findById({_id}).populate("owner");
-  console.log('user: ', user);
+  const user = await Prescription.findById({ _id }).populate("owner");
+  console.log("user: ", user);
 
-  const name = user.owner.name
+  const name = user.owner.name;
 
   const email = user.owner.email;
-  
+
   const data1 = { _id, data };
   const update = await PrescriptionServices.updatePrescriptionServices(data1);
   const { updatePrescription, error } = update;
- 
+
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -84,9 +82,9 @@ const updatePrescriptionController = async (request, response, next) => {
     from: process.env.ADMIN,
     to: email,
     subject: "NO reply",
-    html:`<p>Hello ${name}<b></b>,</p>
+    html: `<p>Hello ${name}<b></b>,</p>
     <p></p>
-    <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+    <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -101,9 +99,10 @@ const updatePrescriptionController = async (request, response, next) => {
     console.log("error: ", error);
     return next(error);
   }
-  
+
   response.json({ status: "200", updatePrescription });
 };
+
 module.exports = {
   uploadPrescriptionController,
   allPrescriptionController,
