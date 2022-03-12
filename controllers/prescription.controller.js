@@ -73,30 +73,36 @@ const updatePrescriptionController = async (request, response, next) => {
   const update = await PrescriptionServices.updatePrescriptionServices(data1);
   const { updatePrescription, error } = update;
  
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.ADMIN,
-      pass: process.env.PASS,
-    },
-  });
-
-  var mailOptions = {
-    from: process.env.ADMIN,
-    to: email,
-    subject: "NO reply",
-    html:`<p>Hello ${name}<b></b>,</p>
-    <p></p>
-    <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
-  };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
+  if(updatePrescription){
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+  
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello ${name}<b></b>,</p>
+      <p>Your Medicine Prescription has been accepted by "Medshub24/7". 
+      you will get the medicine after two days. 
+      </p>
+      <P>if you have any questions or need further information about your medicine than 
+      so you can contact us on our website.<p/>
+      <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
 
   if (error) {
     console.log("error: ", error);
