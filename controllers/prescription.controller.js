@@ -6,6 +6,7 @@ const HttpError = require("../middlewares/HttpError");
 const { request } = require("http");
 const nodemailer = require("nodemailer");
 const Prescription = require("../models/prescriptionModel");
+const { response } = require("express");
 
 // upload prescription controller
 const uploadPrescriptionController = async (request, response, next) => {
@@ -103,8 +104,21 @@ const updatePrescriptionController = async (request, response, next) => {
   response.json({ status: "200", updatePrescription });
 };
 
+const deletePrescriptionController = async (request, response, next) => {
+  const _id = request.params.id;
+  console.log("_id: ", _id);
+  const data = await PrescriptionServices.deletePrescriptionServices(_id);
+  const { deletePres, error } = data;
+  if (error) {
+    response.json(error);
+    return next(error);
+  }
+  response.json({ status: "200", deletePres });
+};
+
 module.exports = {
   uploadPrescriptionController,
   allPrescriptionController,
   updatePrescriptionController,
+  deletePrescriptionController,
 };
