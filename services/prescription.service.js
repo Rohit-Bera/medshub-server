@@ -3,7 +3,6 @@ const HttpError = require("../middlewares/HttpError");
 //upload prescription services
 const uploadPrescriptionServices = async(body)=>{
     const {prescriptionImage,_id} = body
-    
     try {
         const prescription = new Prescription({prescriptionImage,owner:{_id}});
         await prescription.save();
@@ -15,7 +14,6 @@ const uploadPrescriptionServices = async(body)=>{
     return { error };
     }
 };
-
 //all prescription services
 const allPrescriptionService = async()=>{
     try {
@@ -40,6 +38,7 @@ const updatePrescriptionServices = async(data1)=>{
     const {_id,data} = data1;
     try {
         const updatePrescription = await Prescription.findByIdAndUpdate({_id},{$set:data},{new:true});
+       
         console.log('updatePrescription: ', updatePrescription);
         if(!updatePrescription){
             const error = new HttpError(404,"Sorry can't update Prescription !");

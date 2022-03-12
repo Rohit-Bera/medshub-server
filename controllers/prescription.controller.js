@@ -5,6 +5,8 @@ const PrescriptionServices = require("../services/prescription.service");
 const HttpError = require("../middlewares/HttpError");
 const { request } = require("http");
 const nodemailer = require("nodemailer");
+const Prescription = require("../models/prescriptionModel");
+
 
 
 // upload prescription controller
@@ -55,12 +57,21 @@ const allPrescriptionController = async (request, response, next) => {
 const updatePrescriptionController = async (request, response, next) => {
   const _id = request.params.id;
   console.log("_id: ", _id);
+
   const data = request.body;
   console.log("data: ", data);
 
+  const user = await Prescription.findById({_id}).populate("owner");
+  console.log('user: ', user);
+
+  const name = user.owner.name
+
+  const email = user.owner.email;
+  
   const data1 = { _id, data };
   const update = await PrescriptionServices.updatePrescriptionServices(data1);
   const { updatePrescription, error } = update;
+ 
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -73,10 +84,9 @@ const updatePrescriptionController = async (request, response, next) => {
     from: process.env.ADMIN,
     to: email,
     subject: "NO reply",
-    html:`<p>Hello <b></b>,</p>
-    <p>ThankYou for your order of <b></b> and for your prompt online payment. Your order will be shipped within three to five business days.
-    We will send you a quick e-mail when it is shipped.</p>`
-
+    html:`<p>Hello ${name}<b></b>,</p>
+    <p></p>
+    <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
