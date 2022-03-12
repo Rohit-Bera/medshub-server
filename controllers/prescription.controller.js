@@ -115,8 +115,52 @@ const updatePrescriptionController = async (request, response, next) => {
 const deletePrescriptionController = async(request,response,next)=>{
   const _id = request.params.id;
   console.log("_id: ", _id);
+  const user = await Prescription.findById({_id}).populate("owner");
+  console.log('user: ', user);
+  const name = user.owner.name;
+  const email = user.owner.email;
+  const image = user.prescriptionImage[0];
   const data = await PrescriptionServices.deletePrescriptionServices(_id);
   const {deletePres,error} = data;
+  if(deletePres){
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.ADMIN,
+        pass: process.env.PASS,
+      },
+    });
+  
+    var mailOptions = {
+      from: process.env.ADMIN,
+      to: email,
+      subject: "NO reply",
+      html:`<p>Hello ${name}<b></b>,</p>
+      <p>Your Medicine Prescription has been Decine by "Medshub24/7" for invalid purpose. 
+      you can upload new Prescription.!
+      </p>
+      <img>${image}</img>
+      <P>if you have any questions or need further information about your medicine than 
+      so you can contact us on our website.<p/>
+      <p><span>Thanks and Regards,</span><br></br><span>MedsHub24/7</span></p>`,
+      attachments: [
+        {
+        filename: image + ".jpg",
+        path : image
+        // content: new Buffer.from(request.body.image1.split("base64,")[0], "base64"),
+        }
+        ]
+      
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  }
   if (error) {
     return next(error);
   }
