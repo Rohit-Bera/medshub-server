@@ -52,4 +52,23 @@ const updatePrescriptionServices = async(data1)=>{
         return {error} ;
     }
 }
-module.exports = {uploadPrescriptionServices,allPrescriptionService,updatePrescriptionServices};
+
+
+const deletePrescriptionServices = async(_id)=>{
+   try {
+    const deletePres = await Prescription.findByIdAndDelete({_id});
+    if(!deletePres){
+        const error = new HttpError(404, "prescription not Found!");
+      console.log("error: ", error);
+      return { error };
+    }
+    
+    return { deletePres };
+   } catch (err) {
+    const error = new HttpError(404, "Sorry we can't delete Your prescription");
+    console.log("error: ", error);
+    return { error };
+       
+   }
+}
+module.exports = {uploadPrescriptionServices,allPrescriptionService,updatePrescriptionServices,deletePrescriptionServices};
