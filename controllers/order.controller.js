@@ -10,7 +10,7 @@ const easyinvoice = require("easyinvoice");
 
 
 //placeorder controller
-const placeOrderController = async (request, response, next) => {
+const placeOrderController = async (request, response, next) => {             
   const { productId, medicineId } = request.query;
   const user = request.user;
 
