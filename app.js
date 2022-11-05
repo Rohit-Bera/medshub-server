@@ -18,8 +18,8 @@ app.use(bodyparser.json());
 app.use(cors());
 app.use(express.static("public"));
 //for pass
-app.use(express.urlencoded({extended:false}))
-app.set('view engine','ejs')
+app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "ejs");
 // mongo db connection
 
 const mongouri = process.env.MONGODBURI;
@@ -63,14 +63,6 @@ app.use(feedbackRoutes);
 app.use(chatBotRoutes);
 app.use(cartRoutes);
 // app.use(paymentRoutes);
-
-//node server
-app.get("/", (req, res) => {
-  res.status(200).json({ success: "server is running" });
-});
-
-const server = http.createServer(app);
-
 
 //payment
 const stripe = require("stripe")(
@@ -119,15 +111,20 @@ app.post("/paymentStripe", (req, res) => {
 
 // })
 
-
-
-
 // app.get("/reset-password",(req,res,next)=>{
-  
+
 // })
- 
+
 // app.post("/reset-password",(req,res,next)=>{});
 //listen
+
+//node server
+app.get("/", (req, res) => {
+  res.status(200).json({ success: "server is running" });
+});
+
+const server = http.createServer(app);
+
 const port = process.env.PORT || 5500;
 
 server.listen(port, () => {
